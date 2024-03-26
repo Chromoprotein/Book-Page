@@ -1,7 +1,12 @@
 const express = require('express');
 const Post = require('./Post')
+const cors = require('cors');
 
 const app = express();
+
+// Use CORS middleware to allow cross-origin requests
+app.options('*', cors());
+
 app.use(express.json());
 
 require('./db')
@@ -28,6 +33,6 @@ app.get("/data", (req,res) => {
     })
 })
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 8000, () => {
     console.log("server started on port 8000");
 });
