@@ -15,6 +15,12 @@ app.get("/post", (req,res) => {
     })
 })
 
+app.get("/data", (req,res) => {
+    return res.status(200).json({
+        message:"success"
+    })
+})
+
 app.listen(process.env.PORT, () => {
     console.log("server started on port 8000");
 });
