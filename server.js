@@ -4,8 +4,10 @@ const cors = require('cors');
 
 const app = express();
 
-// Use CORS middleware to allow cross-origin requests
-app.options('*', cors());
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
 
 app.use(express.json());
 
