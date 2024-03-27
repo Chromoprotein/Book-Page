@@ -11,7 +11,7 @@ require('./db')
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, 'node-practice-frontend')));
 
-app.get("/", (req,res) => {
+app.get("/post", (req,res) => {
     Post
         .find()
         .then((data) => {
