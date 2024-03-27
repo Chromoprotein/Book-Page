@@ -6,7 +6,7 @@ function App() {
   const [post, setPost] = useState([]);
 
   useEffect(() => {
-    axios.get('https://node-practice-2-463982825488.herokuapp.com/post')
+    axios.get('https://node-practice-2-463982825488.herokuapp.com/')
     .then(res => {
       console.log(res.data.data)
       setPost(res.data.data);
