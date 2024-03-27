@@ -1,17 +1,15 @@
 const express = require('express');
-const Post = require('./Post')
-const cors = require('cors');
+const Post = require('./Post');
+const path = require('path');
 
 const app = express();
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
-});
 
 app.use(express.json());
 
 require('./db')
+
+// Have Node serve the files for our built React app
+app.use(express.static(path.resolve(__dirname, 'node-practice-frontend')));
 
 app.get("/post", (req,res) => {
     Post

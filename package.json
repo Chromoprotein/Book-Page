@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
+    "build": "cd node-practice-frontend && npm install && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -15,5 +16,8 @@
     "express": "^4.19.2",
     "mongoose": "^8.2.3",
     "nodemon": "^3.1.0"
+  },
+  "engines": {
+    "node": "20.10.0"
   }
 }
