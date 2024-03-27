@@ -9,7 +9,7 @@ app.use(express.json());
 require('./db')
 
 // Have Node serve the files for our built React app
-app.use(express.static(path.resolve(__dirname, 'node-practice-frontend')));
+app.use(express.static(path.resolve(__dirname, 'node-practice-frontend/build')));
 
 app.get("/", (req,res) => {
     Post
@@ -26,6 +26,10 @@ app.get("/", (req,res) => {
         })
 
 })
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'node-practice-frontend/build', 'index.html'));
+});
 
 app.get("/data", (req,res) => {
     return res.status(200).json({
