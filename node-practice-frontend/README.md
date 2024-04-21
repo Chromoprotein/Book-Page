@@ -1,70 +1,47 @@
-# Getting Started with Create React App
+This is a practice app for learning Node.js, Express, MongoDB, and Heroku.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Steps:
 
-## Available Scripts
+- Node.js must be installed
+- Create a back-end folder that's not a react app, create a package.json using npm init
+- Inside the back-end folder, create a front-end folder using create-react-app
+- install axios to the front-end
+- Install nodemon, mongoose, express, dotenv, and cors to the back-end folder
 
-In the project directory, you can run:
+1. Connecting to database
+- Create a cluster on MongoDB
+- Go to database access and get your password / create a user
+- Make sure your IP is included in network access
+- Create a collection, and insert some documents
+- Go to database -> connect -> drivers and get the connection string. The connection string, including the password without the < >, go to an .env file that has to be added to .gitignore. In the string, add the specific database's (in collections) name to this part: mongodb.net/database-name-here
+- In db.js, connect to MongoDB using mongoose
 
-### `npm start`
+2. Express HTTP requests
+- Require db.js in server.js
+- Express HTTP requests are defined in server.js. These are API endpoints, not URLs where the users navigate to. You need a Schema that defines the data types
+- App should listen to process.env.PORT || 8000, the former is for deployment, the latter is for local development
+- In package.json, add to scripts: "start": "node server.js",
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+3. Front-end
+- In the front-end folder in App.js, use axios to make HTTP requests. The address is the page's exact address, with e.g. /post that matches up with the Express request
+- Set state, add JSX, etc.
+- If you get cors problems, try clearing the browser's cache
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+4. Heroku
+- Add to package.json scripts: "heroku-postbuild": "cd node-practice-frontend && npm install && npm run build", (node-practice-frontend is the front-end folder's name)
+- Also add to package.json:   
+    "engines": {
+        "node": "20.10.0"
+    }
+- delete the .git folder from the frontend
+- .gitignore node_modules of the back-end. git rm -r --cached . if you committed them by accident
+- In server.js, have Node serve the files for our built React app
+    app.use(express.static(path.resolve(__dirname, 'node-practice-frontend/build')));
+- Also add a catch-all request to server.js:
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'node-practice-frontend/build', 'index.html'));
+    });
+- Push the app to Github
+- Go to Heroku and create a new app
+- Add the MongoDB URI to Heroku's config vars
+- deploy from Github
