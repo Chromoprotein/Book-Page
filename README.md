@@ -1,1 +1,1 @@
-Example app with MongoDB and Heroku.
+Capsule wardrobe app
