@@ -1,1 +1,1 @@
-Capsule wardrobe app
+Reading challenge app
