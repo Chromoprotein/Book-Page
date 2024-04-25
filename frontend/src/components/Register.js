@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useCookies } from "react-cookie";
+import Button from './smallReusables/Button';
+import Input from './smallReusables/Input';
 
 export default function Register() {
   const [cookies, setCookie, removeCookie] = useCookies(['jwt']);
@@ -32,27 +34,12 @@ export default function Register() {
     }
   };
 
+  // The form will grow so that is why it's not combined with the login form
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label>Username:</label>
-        <input
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-      </div>
-      <button type="submit">Register</button>
+      <Input name="username" stateValue={formData.username} func={handleChange} />
+      <Input name="password" stateValue={formData.password} func={handleChange} />
+      <Button type="submit" name="Register" func={handleSubmit}/>
     </form>
   );
 };

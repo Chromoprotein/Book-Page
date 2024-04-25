@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Input from './smallReusables/Input';
+import Button from './smallReusables/Button';
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -32,28 +34,13 @@ export default function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Username:</label>
-        <input
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-      </div>
-      <button type="submit">Log in</button>
+    <form>
+      <Input name="username" stateValue={formData.username} func={handleChange} />
 
-      <Link to={`/`}>Home</Link>
+      <Input name="password" stateValue={formData.password} func={handleChange} />
+
+      <Button type="submit" name="Log in" func={handleSubmit}/>
+
     </form>
   );
 };

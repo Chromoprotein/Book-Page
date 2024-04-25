@@ -1,7 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import EasyLink from "./EasyLink";
 
-export default function BookCard({book}) {
+export default function BookCard({book, details}) {
 
     const {_id, title, author, genre} = book;
 
@@ -12,7 +12,9 @@ export default function BookCard({book}) {
             <li>Name: {title}</li>
             <li>Author: {author}</li>
             <li>Genre: {genre}</li>
-            <li><Link to={`details/${_id}`}>Details</Link></li>
+            {details && <li>
+                <EasyLink to={`details/${_id}`} name="Details"/>
+            </li>}
         </ul>
 
     );

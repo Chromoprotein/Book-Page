@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from "react-router-dom";
 import BookCard from './BookCard';
-import DropDownMenu from './DropDownMenu';
-import Input from './Input';
-import Button from './Button';
+import DropDownMenu from './smallReusables/DropDownMenu';
+import Input from './smallReusables/Input';
+import Button from './smallReusables/Button';
 import { genreArray } from '../utils/optionArrays';
 import { sortArray } from '../utils/optionArrays';
 
@@ -98,7 +97,7 @@ export default function Books() {
   return (
     <div>
         <form>
-          <Input name="search" placeholder="Search books" func={searchQueryHandler} />
+          <Input name="search" stateValue={searchQuery} placeholder="Search books" func={searchQueryHandler} />
 
           <DropDownMenu name="Genre" arr={genreArray} func={searchGenreHandler} selectedVal={searchGenre} />
 
@@ -109,7 +108,7 @@ export default function Books() {
 
         {books.map((book, index) => {
            return (
-            <BookCard key={index} book={book} />
+            <BookCard key={index} book={book} details={true} />
            ) 
         })}
 

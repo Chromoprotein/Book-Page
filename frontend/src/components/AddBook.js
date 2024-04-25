@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import DumbBookForm from './DumbBookForm';
 
 export default function AddBook() {
 
@@ -15,8 +16,6 @@ export default function AddBook() {
     }
 
     // Post request has withCredentials as a separate parameter
-    // In this example, async-await instead of .then
-    // Try-catch is used to handle errors
   const submitFormHandler = async (e) => {
     e.preventDefault();
     try {
@@ -32,27 +31,7 @@ export default function AddBook() {
 
     return (
         <div>
-            <form>
-                <label for="title">Title</label>
-                <input name="title" value={formState.title} onChange={formStateHandler} />
-
-                <label for="author">Author</label>
-                <input name="author" value={formState.author} onChange={formStateHandler} />
-
-                <select onChange={formStateHandler} name="genre" value={formState.genre}>
-                    <option value="" disabled>Genre</option>
-                    <option value="Fantasy">Fantasy</option>
-                    <option value="Sci-fi">Sci-fi</option>
-                    <option value="War">War</option>
-                    <option value="Zombies">Zombies</option>
-                    <option value="Crime">Crime</option>
-                    <option value="Romance">Romance</option>
-                    <option value="Nonfiction">Nonfiction</option>
-                </select>
-
-                <button type="submit" onClick={submitFormHandler}>Submit</button>
-            </form>
-
+            <DumbBookForm formState={formState} formStateHandler={formStateHandler} submitFormHandler={submitFormHandler} />
         </div>
     );
 };

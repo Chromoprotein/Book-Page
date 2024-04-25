@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import Button from './smallReusables/Button';
+import DumbBookForm from './DumbBookForm';
+import BookCard from './BookCard';
 
 export default function Details() {
 
@@ -70,37 +73,18 @@ export default function Details() {
         <div>
             {book &&
                 <>
-                    <ul>
-                        <li>Id: {book._id}</li>
-                        <li>Name: {book.title}</li>
-                        <li>Author: {book.author}</li>
-                        <li>Genre: {book.genre}</li>
-                        <li>Read by: {book.userId}</li>
-                    </ul>
-                    <button type="button" onClick={toggleEdit}>{editMode ? "Cancel" : "Edit"}</button>
+                    <BookCard book={book} details={false} />
+  
+                    <Button type="button" func={toggleEdit} name={editMode ? "Cancel" : "Edit"}/>
 
-                    <button type="button" onClick={deleteBook}>Delete</button>
+                    <Button type="button" func={deleteBook} name="Delete" />
                 </>
             }
 
             {successMessage}
 
             {editMode && 
-                <form>
-                    <label for="title">Title</label>
-                    <input name="title" value={formState.title} onChange={formStateHandler} />
-
-                    <label for="author">Author</label>
-                    <input name="author" value={formState.author} onChange={formStateHandler} />
-
-                    <select onChange={formStateHandler} name="genre" value={formState.genre}>
-                        <option value="" disabled>Genre</option>
-                        <option value="Fantasy">Fantasy</option>
-                        <option value="Sci-fi">Sci-fi</option>
-                    </select>
-
-                    <button type="submit" onClick={submitFormHandler}>Submit</button>
-                </form>
+                <DumbBookForm formState={formState} formStateHandler={formStateHandler} submitFormHandler={submitFormHandler} />
             }
         </div>
         
