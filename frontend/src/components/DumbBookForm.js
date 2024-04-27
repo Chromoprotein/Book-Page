@@ -1,11 +1,17 @@
-import Input from "./smallReusables.js/Input";
-import DropDownMenu from "./smallReusables.js/DropDownMenu";
-import Button from "./smallReusables.js/Button";
+import Input from "./smallReusables/Input";
+import DropDownMenu from "./smallReusables/DropDownMenu";
+import Button from "./smallReusables/Button";
 import { genreArray } from "../utils/optionArrays";
 
 // Form for both uploading and editing books
 
 export default function DumbForm({formState, formStateHandler, submitFormHandler}) {
+
+    const formIsFilled = Object.keys(formState).every(key => {  
+        const value = formState[key];
+        return value !== null && value !== undefined && value !== '';
+    });
+
     return (
         <form>
             <Input name="title" stateValue={formState.title} func={formStateHandler} />
@@ -14,7 +20,8 @@ export default function DumbForm({formState, formStateHandler, submitFormHandler
 
             <DropDownMenu name="genre" arr={genreArray} func={formStateHandler} selectedVal={formState.genre} />
 
-            <Button type="submit" name="Submit" func={submitFormHandler} />
+            <Button type="submit" name="Submit" optionalDisabledCondition={formIsFilled ? false : true} func={submitFormHandler} />
+
         </form>
     );
 }

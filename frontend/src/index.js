@@ -16,6 +16,7 @@ import Details from './components/Details';
 import Logout from './components/Logout';
 import { useAuth } from './utils/useAuth';
 import './styles/input.css';
+import ErrorPage from './components/ErrorPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -48,7 +49,7 @@ const router = createBrowserRouter(
           </RequireAuth>
         }
       />
-      <Route path="*" element={<h1>Page not found</h1>} />
+      <Route path="*" element={<ErrorPage/>} />
     </Route>
   )
 );

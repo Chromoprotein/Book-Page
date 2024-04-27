@@ -1,5 +1,5 @@
 import React from "react";
-import EasyLink from "./EasyLink";
+import EasyLink from "./smallReusables/EasyLink";
 
 export default function BookCard({book, details}) {
 

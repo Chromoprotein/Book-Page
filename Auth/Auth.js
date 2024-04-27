@@ -59,8 +59,7 @@ exports.login = async (req, res, next) => {
     const user = await User.findOne({ username });
     if (!user) {
       return res.status(401).json({
-        message: "Login not successful",
-        error: "User not found",
+        message: "Wrong username or password",
       });
     }
 
@@ -85,11 +84,11 @@ exports.login = async (req, res, next) => {
         user: user._id,
       });
     } else {
-      res.status(400).json({ message: "Login not successful" });
+      res.status(400).json({ message: "Wrong username or password" });
     }
   } catch (error) {
     res.status(400).json({
-      message: "An error occurred",
+      message: "Internal server error",
       error: error.message,
     });
   }

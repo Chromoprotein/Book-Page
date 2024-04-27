@@ -3,9 +3,14 @@ import axios from 'axios';
 import { useCookies } from "react-cookie";
 import Button from './smallReusables/Button';
 import Input from './smallReusables/Input';
+import { handleAxiosError } from '../utils/handleAxiosError';
+import { navigateWithTimeout } from '../utils/navigateWithTimeout';
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
-  const [cookies, setCookie, removeCookie] = useCookies(['jwt']);
+  const [setCookie] = useCookies(['jwt']);
+  const [message, setMessage] = useState();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     username: '',
@@ -27,19 +32,26 @@ export default function Register() {
       if (response.status === 201) {
           const token = response.data.jwt;
           setCookie('jwt', token, { path: '/', secure: true, httpOnly: true }); // Set the JWT token as a cookie
-          console.log(response.data)
+            setMessage(response.data.message)
+            navigateWithTimeout(navigate);
       }
     } catch (error) {
-      console.error(error);
+      setMessage(handleAxiosError(error));
     }
   };
+
+  const formIsFilled = Object.keys(formData).every(key => {  
+      const value = formData[key];
+      return value !== null && value !== undefined && value !== '';
+  });
 
   // The form will grow so that is why it's not combined with the login form
   return (
     <form onSubmit={handleSubmit}>
       <Input name="username" stateValue={formData.username} func={handleChange} />
       <Input name="password" stateValue={formData.password} func={handleChange} />
-      <Button type="submit" name="Register" func={handleSubmit}/>
+      <Button type="submit" name="Register" optionalDisabledCondition={formIsFilled ? false : true} func={handleSubmit}/>
+      {message}
     </form>
   );
 };

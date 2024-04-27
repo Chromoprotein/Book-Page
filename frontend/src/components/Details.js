@@ -4,6 +4,10 @@ import { useParams } from 'react-router-dom';
 import Button from './smallReusables/Button';
 import DumbBookForm from './DumbBookForm';
 import BookCard from './BookCard';
+import EasyLink from './smallReusables/EasyLink';
+import { handleAxiosError } from '../utils/handleAxiosError';
+import { useNavigate } from 'react-router-dom';
+import { navigateWithTimeout } from '../utils/navigateWithTimeout';
 
 export default function Details() {
 
@@ -12,7 +16,9 @@ export default function Details() {
     const [editMode, setEditMode] = useState(false);
     const [formState, setFormState] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const [successMessage, setSuccessMessage] = useState();
+    const [message, setMessage] = useState();
+    const navigate = useNavigate();
+    const [showConfirm, setShowConfirm] = useState(false);
 
     useEffect(() => {
         const getBook = async () => {
@@ -24,14 +30,19 @@ export default function Details() {
                 setBook(res.data.book);
                 setFormState({ title: res.data.book.title, author: res.data.book.author, genre: res.data.book.genre })
             } catch (err) {
-                console.error(err);
+                const errorMessage = handleAxiosError(err);
+                navigate('*', { state: { message: errorMessage } });
             }
         }
         getBook();
-    }, [id, isSubmitted])
+    }, [id, isSubmitted, navigate])
 
     const toggleEdit = () => {
         setEditMode((prev) => !prev);
+    }
+
+    const toggleConfirm = () => {
+        setShowConfirm((prev) => !prev);
     }
 
     const formStateHandler = (e) => {
@@ -46,12 +57,11 @@ export default function Details() {
         try {
             const url = `${process.env.REACT_APP_UPDATE_BOOK_URI}/${book._id}`; // Include book ID in URL
             const response = await axios.put(url, formState, { withCredentials: true });
-            console.log(response.data);
-            setSuccessMessage(response.data.message);
+            setMessage(response.data.message);
             setEditMode(false);
             setIsSubmitted((prev) => !prev);
         } catch (error) {
-            console.error(error.response.data); // To get more detailed error info
+            setMessage(handleAxiosError(error));
         }
     };
 
@@ -61,31 +71,39 @@ export default function Details() {
             const url = `${process.env.REACT_APP_DELETE_BOOK_URI}/${book._id}`; // Include book ID in URL
             const response = await axios.delete(url, { withCredentials: true });
             console.log(response.data);
-            setSuccessMessage(response.data.message);
+            setMessage(response.data.message);
             setBook(null);
             setEditMode(false);
+            navigateWithTimeout(navigate);
         } catch (error) {
-            console.error(error.response.data);
+            setMessage(handleAxiosError(error));
         }
     }
 
     return (
         <div>
+            {message}
             {book &&
                 <>
                     <BookCard book={book} details={false} />
   
                     <Button type="button" func={toggleEdit} name={editMode ? "Cancel" : "Edit"}/>
 
-                    <Button type="button" func={deleteBook} name="Delete" />
+                    <Button type="button" func={toggleConfirm} name="Delete" />
+                    {showConfirm &&
+                        <>
+                            <p>Confirm you want to delete this book permanently</p>
+                            <Button type="button" func={deleteBook} name="Delete" />
+                        </>
+                    }
                 </>
             }
-
-            {successMessage}
 
             {editMode && 
                 <DumbBookForm formState={formState} formStateHandler={formStateHandler} submitFormHandler={submitFormHandler} />
             }
+
+            <EasyLink to="/" name="Return" />
         </div>
         
     );

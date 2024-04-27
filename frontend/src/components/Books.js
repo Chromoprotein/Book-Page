@@ -6,6 +6,9 @@ import Input from './smallReusables/Input';
 import Button from './smallReusables/Button';
 import { genreArray } from '../utils/optionArrays';
 import { sortArray } from '../utils/optionArrays';
+import { useNavigate } from 'react-router-dom';
+import { handleAxiosError } from '../utils/handleAxiosError';
+import EasyLink from './smallReusables/EasyLink';
 
 export default function Books() {
 
@@ -16,6 +19,8 @@ export default function Books() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [message, setMessage] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getAllBooks = async () => {
@@ -29,12 +34,13 @@ export default function Books() {
         setCurrentPage(res.data.currentPage);
         setTotalPages(res.data.totalPages);
       } catch (err) {
-        console.error(err);
+        const errorMessage = handleAxiosError(err);
+        navigate('*', { state: { message: errorMessage } });
       }
     }
     getAllBooks();
     
-  }, [])
+  }, [navigate])
 
   useEffect(() => {
     if (!isSubmit) return;
@@ -53,7 +59,7 @@ export default function Books() {
         setCurrentPage(res.data.currentPage);
         setTotalPages(res.data.totalPages);
       } catch (err) {
-        console.error(err);
+        setMessage(handleAxiosError(err));
       }
     }
     searchBooks();
@@ -96,6 +102,7 @@ export default function Books() {
 
   return (
     <div>
+        {message}
         <form>
           <Input name="search" stateValue={searchQuery} placeholder="Search books" func={searchQueryHandler} />
 
@@ -111,6 +118,8 @@ export default function Books() {
             <BookCard key={index} book={book} details={true} />
            ) 
         })}
+
+        <EasyLink to="/" name="Return" />
 
         <nav>
           <Button type="button" name="Previous" optionalValue={currentPage - 1} optionalDisabledCondition={currentPage === 1} func={paginate} />

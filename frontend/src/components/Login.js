@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Input from './smallReusables/Input';
 import Button from './smallReusables/Button';
+import { handleAxiosError } from '../utils/handleAxiosError';
+import { navigateWithTimeout } from '../utils/navigateWithTimeout';
 
 export default function Login() {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
+  const [message, setMessage] = useState();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -26,20 +30,22 @@ export default function Login() {
             { withCredentials: true }
           );
           if (response.status === 201) {
-              console.log("user logged in")
+            setMessage(response.data.message)
+            navigateWithTimeout(navigate);
           }
       } catch (error) {
-          console.error(error);
+        setMessage(handleAxiosError(error));
       }
-  };
+  }
 
   return (
     <form>
       <Input name="username" stateValue={formData.username} func={handleChange} />
 
-      <Input name="password" stateValue={formData.password} func={handleChange} />
+      <Input name="password" type="password" stateValue={formData.password} func={handleChange} />
 
       <Button type="submit" name="Log in" func={handleSubmit}/>
+      {message}
 
     </form>
   );
