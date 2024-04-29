@@ -6,6 +6,7 @@ import Input from './smallReusables/Input';
 import { handleAxiosError } from '../utils/handleAxiosError';
 import { navigateWithTimeout } from '../utils/navigateWithTimeout';
 import { useNavigate } from 'react-router-dom';
+import Message from './smallReusables/Message';
 
 export default function Register() {
   const [setCookie] = useCookies(['jwt']);
@@ -51,7 +52,7 @@ export default function Register() {
       <Input name="username" stateValue={formData.username} func={handleChange} />
       <Input name="password" stateValue={formData.password} func={handleChange} />
       <Button type="submit" name="Register" optionalDisabledCondition={formIsFilled ? false : true} func={handleSubmit}/>
-      {message}
+      {message && <Message message={message} />}
     </form>
   );
 };

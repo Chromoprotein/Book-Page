@@ -5,6 +5,7 @@ import { handleAxiosError } from '../utils/handleAxiosError';
 import { navigateWithTimeout } from '../utils/navigateWithTimeout';
 import { useNavigate } from 'react-router-dom';
 import EasyLink from './smallReusables/EasyLink';
+import Message from './smallReusables/Message';
 
 export default function AddBook() {
 
@@ -37,9 +38,9 @@ export default function AddBook() {
 
     return (
         <div>
-          <p>{message}</p>
-            <DumbBookForm formState={formState} formStateHandler={formStateHandler} submitFormHandler={submitFormHandler} />
-            <EasyLink to="/" name="Return"/>
+          {message && <Message message={message} />}
+          <DumbBookForm formState={formState} formStateHandler={formStateHandler} submitFormHandler={submitFormHandler} />
+          <EasyLink to="/" name="Return"/>
         </div>
     );
 };

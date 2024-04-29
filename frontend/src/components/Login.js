@@ -5,6 +5,7 @@ import Input from './smallReusables/Input';
 import Button from './smallReusables/Button';
 import { handleAxiosError } from '../utils/handleAxiosError';
 import { navigateWithTimeout } from '../utils/navigateWithTimeout';
+import Message from './smallReusables/Message';
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -45,7 +46,8 @@ export default function Login() {
       <Input name="password" type="password" stateValue={formData.password} func={handleChange} />
 
       <Button type="submit" name="Log in" func={handleSubmit}/>
-      {message}
+      
+      {message && <Message message={message} />}
 
     </form>
   );

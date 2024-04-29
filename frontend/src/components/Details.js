@@ -8,6 +8,7 @@ import EasyLink from './smallReusables/EasyLink';
 import { handleAxiosError } from '../utils/handleAxiosError';
 import { useNavigate } from 'react-router-dom';
 import { navigateWithTimeout } from '../utils/navigateWithTimeout';
+import Message from './smallReusables/Message';
 
 export default function Details() {
 
@@ -82,7 +83,7 @@ export default function Details() {
 
     return (
         <div>
-            {message}
+            {message && <Message message={message} />}
             {book &&
                 <>
                     <BookCard book={book} details={false} />

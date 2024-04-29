@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { navigateWithTimeout } from "../utils/navigateWithTimeout";
 import { handleAxiosError } from "../utils/handleAxiosError";
+import Message from "./smallReusables/Message";
 
 export default function Logout() {
 
@@ -28,6 +29,8 @@ export default function Logout() {
     }, [navigate])
 
     return (
-        <p>{message && message}</p>
+        <>
+            {message && <Message message={message} />}
+        </>
     );
 }

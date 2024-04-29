@@ -9,6 +9,7 @@ import { sortArray } from '../utils/optionArrays';
 import { useNavigate } from 'react-router-dom';
 import { handleAxiosError } from '../utils/handleAxiosError';
 import EasyLink from './smallReusables/EasyLink';
+import Message from './smallReusables/Message';
 
 export default function Books() {
 
@@ -102,7 +103,7 @@ export default function Books() {
 
   return (
     <div>
-        {message}
+        {message && <Message message={message} />}
         <form>
           <Input name="search" stateValue={searchQuery} placeholder="Search books" func={searchQueryHandler} />
 
@@ -113,23 +114,27 @@ export default function Books() {
           <Button type="submit" name="Search" func={searchBooksHandeler} />
         </form>
 
-        {books.map((book, index) => {
-           return (
-            <BookCard key={index} book={book} details={true} />
-           ) 
-        })}
+        {books &&
+          <>
+            {books.map((book, index) => {
+              return (
+                <BookCard key={index} book={book} details={true} />
+              ) 
+            })}
 
-        <EasyLink to="/" name="Return" />
+            <EasyLink to="/" name="Return" />
 
-        <nav>
-          <Button type="button" name="Previous" optionalValue={currentPage - 1} optionalDisabledCondition={currentPage === 1} func={paginate} />
+            <nav>
+              <Button type="button" name="Previous" optionalValue={currentPage - 1} optionalDisabledCondition={currentPage === 1} func={paginate} />
 
-          {paginationButtonNumbers.map((paginationNumber, index) => {
-            return <Button key={index} type="button" name={paginationNumber} optionalValue={paginationNumber} optionalDisabledCondition={currentPage === paginationNumber} func={paginate} />
-          })}
+              {paginationButtonNumbers.map((paginationNumber, index) => {
+                return <Button key={index} type="button" name={paginationNumber} optionalValue={paginationNumber} optionalDisabledCondition={currentPage === paginationNumber} func={paginate} />
+              })}
 
-          <Button type="button" name="Next" optionalValue={currentPage + 1} optionalDisabledCondition={currentPage === totalPages} func={paginate} />
-        </nav>
+              <Button type="button" name="Next" optionalValue={currentPage + 1} optionalDisabledCondition={currentPage === totalPages} func={paginate} />
+            </nav>
+          </>
+        }
     </div>
   );
 };
