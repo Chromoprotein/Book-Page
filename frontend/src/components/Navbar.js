@@ -10,10 +10,11 @@ export default function Navbar() {
     }
 
     return (
-        <nav className="sticky top-0 bg-teal-700">
+        <nav className="bg-teal-700 h-20 px-10 gap-3 flex justify-between font-bold tracking-wide font-playfair">
                 <div className="flex justify-start items-center">
                     {<EasyLink to="/" name="Reading challenge" />}
-
+                </div>
+                <div className="flex justify-end items-center">
                     {!isAuthenticated && <EasyLink to="register" name="Register" />}
                     {!isAuthenticated && <EasyLink to="login" name="Log in" />}
 

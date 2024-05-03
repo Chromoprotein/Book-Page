@@ -2,8 +2,14 @@
 module.exports = {
   content: ["./src/**/*.{html,js}"],
   theme: {
-    backgroundImage: {
-      'hero-image': "url('/src/assets/hero.webp')",
+    extend: {
+      backgroundImage: {
+        'hero-image': "url('/src/assets/hero.webp')",
+      },
+      fontFamily: {
+        playfair: ['"Playfair Display"', 'serif'],
+        merriweather: ['Merriweather', 'serif'],
+      },
     }
   },
   plugins: [],
