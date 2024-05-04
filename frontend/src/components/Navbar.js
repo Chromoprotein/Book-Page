@@ -1,5 +1,6 @@
 import { useAuth } from '../utils/useAuth';
 import EasyLink from './smallReusables/EasyLink';
+import bookicon from '.././assets/bookicon.webp';
 
 export default function Navbar() {
 
@@ -10,9 +11,13 @@ export default function Navbar() {
     }
 
     return (
-        <nav className="bg-teal-700 h-20 px-10 gap-3 flex justify-between font-bold tracking-wide font-playfair">
+        <nav className="bg-teal-700 h-20 px-10 gap-3 flex justify-between">
                 <div className="flex justify-start items-center">
-                    {<EasyLink to="/" name="Reading challenge" />}
+                    <EasyLink to="/">
+                        <img src={bookicon} alt="Home link icon" className="h-20" />
+                        
+                    </EasyLink>
+                    <EasyLink to="/" size="large">Booksmosis</EasyLink>
                 </div>
                 <div className="flex justify-end items-center">
                     {!isAuthenticated && <EasyLink to="register" name="Register" />}

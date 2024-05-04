@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import { useAuth } from '../utils/useAuth';
 import LoggedInFrontPage from './LoggedInFrontPage';
 import LoggedOutFrontPage from './LoggedOutFrontPage';
+import Footer from './Footer';
 
 function App() {
 
@@ -12,9 +13,10 @@ function App() {
   }
 
   return (
-    <div className="bg-teal-200 pb-4">
+    <div className="bg-amber-50">
       <Navbar />
       {isAuthenticated ? <LoggedInFrontPage/> : <LoggedOutFrontPage />}
+      <Footer />
     </div>
   );
 }

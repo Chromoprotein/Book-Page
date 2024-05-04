@@ -5,22 +5,27 @@ import privacy from '.././assets/privacy.webp';
 import checkboxicon from '.././assets/checkboxicon.webp';
 import Icon from "./smallReusables/Icon";
 import LinkButton from './smallReusables/LinkButton';
+import LargeText from "./smallReusables/LargeText";
+import TitleText from "./smallReusables/TitleText";
 
 export default function LoggedOutFrontPage() {
     return (
         <div>
-            <div className="bg-hero-image bg-cover bg-center w-full h-96 "> {/*hero image background*/}
+
+            <div className="bg-hero-image bg-cover bg-center w-full h-96"> {/*hero image background*/}
                 <div className="bg-amber-50 w-full h-full bg-opacity-50 m-0 flex justify-center text-center"> {/*transparent overlay*/}
                     <div className="my-auto w-96">
-                        <h1 className="text-4xl font-bold p-5 text-amber-900 font-playfair ">Challenge yourself to read more </h1>
-                        <p className="text-xl pb-5 font-merriweather text-teal-800">A distraction-free way to track your reading progress and what books you love</p>
+                        <TitleText>Challenge yourself to read more </TitleText>
+                        <LargeText>A distraction-free way to track your reading progress and what books you love</LargeText>
+                        <br/>
                         <LinkButton to={`register`} name="Create a free account" />
                     </div>
                 </div>
             </div>
 
-            <div className="bg-white lg:w-2/3 mx-auto pb-10 mt-4">
-                <div className="flex flex-col mx-auto justify-center">
+            <div className="mx-auto p-7 mt-4 text-center">
+                <TitleText>Why join</TitleText>
+                <div className="flex flex-wrap justify-around w-2/3 mx-auto">
                     <Icon img={reader}>Get motivated to read more</Icon>
 
                     <Icon img={checkboxicon}>Track your progress and your likes/dislikes</Icon>
@@ -29,8 +34,9 @@ export default function LoggedOutFrontPage() {
 
                     <Icon img={privacy}>Anti-social-media website without distractions</Icon>
 
-                    <button type="button" className="bg-amber-500 p-4 m-4 rounded-full w-1/3 mx-auto"><EasyLink to={`register`} name="Create a free account"/></button>
+                    <Icon img={bookicon}>Completely free!</Icon>
                 </div>
+                <LinkButton to={`register`} name="Start now" />
             </div>
 
         </div>

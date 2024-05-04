@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         'hero-image': "url('/src/assets/hero.webp')",
+        'book-texture': "url('/src/assets/texture.webp')",
       },
       fontFamily: {
         playfair: ['"Playfair Display"', 'serif'],
