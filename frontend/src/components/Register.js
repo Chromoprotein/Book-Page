@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import Message from './smallReusables/Message';
 
 export default function Register() {
-  const [setCookie] = useCookies(['jwt']);
+  const [cookies, setCookie, removeCookie] = useCookies(['jwt']);
   const [message, setMessage] = useState();
   const navigate = useNavigate();
 

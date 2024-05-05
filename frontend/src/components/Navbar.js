@@ -1,5 +1,5 @@
 import { useAuth } from '../utils/useAuth';
-import EasyLink from './smallReusables/EasyLink';
+import { LightLink, TitleLink } from './smallReusables/EasyLink';
 import bookicon from '.././assets/bookicon.webp';
 
 export default function Navbar() {
@@ -13,19 +13,18 @@ export default function Navbar() {
     return (
         <nav className="bg-teal-700 h-20 px-10 gap-3 flex justify-between">
                 <div className="flex justify-start items-center">
-                    <EasyLink to="/">
+                    <LightLink to="/">
                         <img src={bookicon} alt="Home link icon" className="h-20" />
-                        
-                    </EasyLink>
-                    <EasyLink to="/" size="large">Booksmosis</EasyLink>
+                    </LightLink>
+                    <TitleLink to="/">Booksmosis</TitleLink>
                 </div>
                 <div className="flex justify-end items-center">
-                    {!isAuthenticated && <EasyLink to="register" name="Register" />}
-                    {!isAuthenticated && <EasyLink to="login" name="Log in" />}
+                    {!isAuthenticated && <LightLink to="register">Register</LightLink>}
+                    {!isAuthenticated && <LightLink to="login">Log in</LightLink>}
 
-                    {isAuthenticated && <EasyLink to="getBooks" name="My books" />}
-                    {isAuthenticated && <EasyLink to="addBook" name="Add books" />}
-                    {isAuthenticated && <EasyLink to="logout" name="Log out" />}
+                    {isAuthenticated && <LightLink to="getBooks">My books</LightLink>}
+                    {isAuthenticated && <LightLink to="addBook">Add books</LightLink>}
+                    {isAuthenticated && <LightLink to="logout">Log out</LightLink>}
                 </div>
         </nav>
     );

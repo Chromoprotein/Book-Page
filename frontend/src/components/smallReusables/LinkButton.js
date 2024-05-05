@@ -1,13 +1,13 @@
-import EasyLink from './EasyLink';
+import { LightLink } from './EasyLink';
 
-// Buttons containing a link, meant for dark backgrounds
+// Wide buttons containing a link
 
 export default function LinkButton({to, children, name}) {
     return (
-        <button className="bg-teal-800 rounded-full min-w-64 h-12 px-5 mx-auto text-center" type="button">
-            <EasyLink to={to}>
+        <button className="bg-teal-800 h-12 rounded-full min-w-64 px-5 mx-auto text-center">
+            <LightLink to={to}>
                 {children ? children : name}
-            </EasyLink>
+            </LightLink>
         </button>
     );
 }

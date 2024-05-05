@@ -1,12 +1,11 @@
-import EasyLink from "./smallReusables/EasyLink";
-import giticon from '.././assets/github-mark-white.png';
+import { LightLink } from "./smallReusables/EasyLink";
 
 export default function Footer() {
     return (
-        <div className="bg-teal-700 h-20 px-10 gap-3 flex justify-end items-center mt-10">
-            <EasyLink to="https://github.com/Chromoprotein">
-                <img src={giticon} alt="Github" className="w-10" />
-            </EasyLink>
+        <div className="bg-teal-700 h-20 px-10 gap-3 flex justify-center items-center mt-10">
+            <LightLink to="about">About</LightLink>
+            <LightLink to="https://github.com/Chromoprotein">Github</LightLink>
+            <LightLink to="more">More websites</LightLink>
         </div>
     );
 }
