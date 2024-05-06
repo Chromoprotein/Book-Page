@@ -1,23 +1,28 @@
 import React from 'react';
-import Navbar from './Navbar';
 import { useAuth } from '../utils/useAuth';
 import LoggedInFrontPage from './LoggedInFrontPage';
 import LoggedOutFrontPage from './LoggedOutFrontPage';
-import Footer from './Footer';
+import NavbarFooter from './NavbarFooter';
+import { useOutlet } from 'react-router-dom';
 
 function App() {
+
+  const outlet = useOutlet()
 
   const { isAuthenticated, loading } = useAuth();
   if (loading) {
       return <div>Loading...</div>;
   }
 
+  // If no outlet is rendered, render the landing page
+  const placeholder = isAuthenticated ? <LoggedInFrontPage/> : <LoggedOutFrontPage />;
+
   return (
-    <div className="bg-amber-50">
-      <Navbar />
-      {isAuthenticated ? <LoggedInFrontPage/> : <LoggedOutFrontPage />}
-      <Footer />
-    </div>
+    <NavbarFooter>
+      <div className="py-5">
+      <>{outlet || placeholder}</>
+      </div>
+    </NavbarFooter>
   );
 }
 

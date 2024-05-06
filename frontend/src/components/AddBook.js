@@ -4,8 +4,9 @@ import DumbBookForm from './DumbBookForm';
 import { handleAxiosError } from '../utils/handleAxiosError';
 import { navigateWithTimeout } from '../utils/navigateWithTimeout';
 import { useNavigate } from 'react-router-dom';
-import EasyLink from './smallReusables/EasyLink';
+import { DarkLink } from './smallReusables/EasyLink';
 import Message from './smallReusables/Message';
+import { TitleText } from './smallReusables/TextComponents';
 
 export default function AddBook() {
 
@@ -37,10 +38,11 @@ export default function AddBook() {
   };
 
     return (
-        <div>
+        <div className="min-h-screen w-1/2 mx-auto flex flex-col">
+          
           {message && <Message message={message} />}
-          <DumbBookForm formState={formState} formStateHandler={formStateHandler} submitFormHandler={submitFormHandler} />
-          <EasyLink to="/" name="Return"/>
+          <DumbBookForm formState={formState} formStateHandler={formStateHandler} submitFormHandler={submitFormHandler} title="What did you read?" />
+          <DarkLink to="/">Return</DarkLink>
         </div>
     );
 };

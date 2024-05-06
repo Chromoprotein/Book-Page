@@ -40,15 +40,17 @@ export default function Login() {
   }
 
   return (
-    <form>
-      <Input name="username" stateValue={formData.username} func={handleChange} />
+    <div className="min-h-screen">
+      <form>
+        <Input name="username" stateValue={formData.username} func={handleChange} />
 
-      <Input name="password" type="password" stateValue={formData.password} func={handleChange} />
+        <Input name="password" type="password" stateValue={formData.password} func={handleChange} />
 
-      <Button type="submit" name="Log in" func={handleSubmit}/>
-      
-      {message && <Message message={message} />}
+        <Button type="submit" name="Log in" func={handleSubmit}/>
+        
+        {message && <Message message={message} />}
 
-    </form>
+      </form>
+    </div>
   );
 };
