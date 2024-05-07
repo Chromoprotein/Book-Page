@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export function DarkLink({to, children}) {
     
     return (
-        <Link className="text-center p-1 font-bold tracking-wide font-playfair text-black hover:text-teal-500 m-5" to={to}>
+        <Link className="text-center p-1 font-bold tracking-wide text-teal-600 hover:text-teal-300 m-5 font-roboto" to={to}>
             {children}
         </Link>
     );
@@ -12,7 +12,7 @@ export function DarkLink({to, children}) {
 export function LightLink({to, children}) {
     
     return (
-        <Link className="text-center p-1 font-bold tracking-wide font-playfair text-teal-100 hover:text-amber-100 m-5" to={to}>
+        <Link className="text-center p-1 font-bold tracking-wide text-teal-100 hover:text-white m-5 font-roboto" to={to}>
             {children}
         </Link>
     );
@@ -21,7 +21,7 @@ export function LightLink({to, children}) {
 export function TitleLink({to, children}) {
     
     return (
-        <Link className="text-4xl font-bold p-5 tracking-wide leading-relaxed text-teal-100 font-playfair text-center hover:text-amber-100" to={to}>
+        <Link className="text-4xl font-bold p-5 tracking-wide leading-relaxed text-teal-100 text-center hover:text-white font-poppins" to={to}>
             {children}
         </Link>
     );

@@ -6,6 +6,7 @@ import Button from './smallReusables/Button';
 import { handleAxiosError } from '../utils/handleAxiosError';
 import { navigateWithTimeout } from '../utils/navigateWithTimeout';
 import Message from './smallReusables/Message';
+import { TitleText } from './smallReusables/TextComponents';
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -41,10 +42,12 @@ export default function Login() {
 
   return (
     <div className="min-h-screen">
-      <form>
-        <Input name="username" stateValue={formData.username} func={handleChange} />
+      <form className="w-1/2 shadow-md rounded-lg p-10 mx-auto flex flex-col justify-center gap-6 mt-5 border-t-4 border-teal-800">
+        <TitleText>Log in</TitleText>
 
-        <Input name="password" type="password" stateValue={formData.password} func={handleChange} />
+        <Input name="username" placeholder="Username" stateValue={formData.username} func={handleChange} />
+
+        <Input name="password" placeholder="Password" type="password" stateValue={formData.password} func={handleChange} />
 
         <Button type="submit" name="Log in" func={handleSubmit}/>
         

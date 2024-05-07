@@ -19,7 +19,7 @@ function App() {
 
   return (
     <NavbarFooter>
-      <div className="py-5">
+      <div className="pb-5">
       <>{outlet || placeholder}</>
       </div>
     </NavbarFooter>

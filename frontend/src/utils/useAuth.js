@@ -38,5 +38,6 @@ export const useAuth = () => {
     
   }, [isAuthenticated]);
 
+  console.log("useAuth" + isAuthenticated)
   return { isAuthenticated, loading };
 };

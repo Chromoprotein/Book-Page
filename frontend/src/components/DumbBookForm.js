@@ -14,11 +14,11 @@ export default function DumbForm({formState, formStateHandler, submitFormHandler
     });
 
     return (
-            <form className="flex flex-col justify-center items-center gap-5 bg-white rounded-lg w-full p-5 my-10 h-2/3">
+            <form className="flex flex-col justify-center shadow-md border-t-4 border-teal-800 items-center gap-5 bg-white rounded-lg w-full p-10 my-10 h-2/3">
                 <TitleText>{title}</TitleText>
-                <Input name="title" stateValue={formState.title} func={formStateHandler} />
+                <Input name="title" placeholder="Title" stateValue={formState.title} func={formStateHandler} />
 
-                <Input name="author" stateValue={formState.author} func={formStateHandler} />
+                <Input name="author" placeholder="Author" stateValue={formState.author} func={formStateHandler} />
                 
                 <DropDownMenu name="genre" arr={genreArray} func={formStateHandler} selectedVal={formState.genre} />
 

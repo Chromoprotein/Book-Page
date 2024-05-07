@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import { handleAxiosError } from '../utils/handleAxiosError';
 import EasyLink from './smallReusables/EasyLink';
 import Message from './smallReusables/Message';
+import MiniButton from './smallReusables/MiniButton';
+import { TitleText } from './smallReusables/TextComponents';
 
 export default function Books() {
 
@@ -102,39 +104,49 @@ export default function Books() {
   }
 
   return (
-    <div>
+    <div className="w-2/3 mx-auto min-h-screen pt-10">
+        <div className="text-center m-10">
+            <TitleText>Your bookshelf</TitleText>
+        </div>
+
         {message && <Message message={message} />}
-        <form>
+
+        <form className="flex flex-col shadow-md border-t-4 border-teal-800 items-center gap-5 bg-white rounded-lg p-10 my-10 h-2/3">
           <Input name="search" stateValue={searchQuery} placeholder="Search books" func={searchQueryHandler} />
 
-          <DropDownMenu name="Genre" arr={genreArray} func={searchGenreHandler} selectedVal={searchGenre} />
+          <div className="flex flex-row gap-5">
+            <DropDownMenu name="Genre" arr={genreArray} func={searchGenreHandler} selectedVal={searchGenre} />
 
-          <DropDownMenu name="Sort by" arr={sortArray} func={sortHandler} selectedVal={sortBy} />
+            <DropDownMenu name="Sort by" arr={sortArray} func={sortHandler} selectedVal={sortBy} />
 
-          <Button type="submit" name="Search" func={searchBooksHandeler} />
+            <Button type="submit" name="Search" func={searchBooksHandeler} />
+          </div>
         </form>
 
-        {books &&
-          <>
-            {books.map((book, index) => {
-              return (
-                <BookCard key={index} book={book} details={true} />
-              ) 
-            })}
 
-            <EasyLink to="/" name="Return" />
+          {books &&
+            <div>
+              <div className="flex flex-row flex-wrap justify-center">
+                {books.map((book, index) => {
+                  return (
+                    <BookCard key={index} book={book} details={true} />
+                  ) 
+                })}
+              </div>
 
-            <nav>
-              <Button type="button" name="Previous" optionalValue={currentPage - 1} optionalDisabledCondition={currentPage === 1} func={paginate} />
+              <nav className="p-5 flex flex-row justify-center gap-5">
+                <Button type="button" name="Previous" optionalValue={currentPage - 1} optionalDisabledCondition={currentPage === 1} func={paginate} />
 
-              {paginationButtonNumbers.map((paginationNumber, index) => {
-                return <Button key={index} type="button" name={paginationNumber} optionalValue={paginationNumber} optionalDisabledCondition={currentPage === paginationNumber} func={paginate} />
-              })}
+                {paginationButtonNumbers.map((paginationNumber, index) => {
+                  return <MiniButton key={index} type="button" name={paginationNumber} optionalValue={paginationNumber} optionalDisabledCondition={currentPage === paginationNumber} func={paginate} />
+                })}
 
-              <Button type="button" name="Next" optionalValue={currentPage + 1} optionalDisabledCondition={currentPage === totalPages} func={paginate} />
-            </nav>
-          </>
-        }
+                <Button type="button" name="Next" optionalValue={currentPage + 1} optionalDisabledCondition={currentPage === totalPages} func={paginate} />
+              </nav>
+
+            </div>
+          }
+
     </div>
   );
 };

@@ -52,7 +52,7 @@ export default function DropDownMenu({ name, arr, selectedVal, func }) {
                 data-option-value={option}
                 data-name={name}
                 // Other stuff
-                className={`selectable-item hover:bg-purple-800 hover:text-white md:first:hover:rounded-t md:first:rounded-t md:last:hover:rounded-b md:last:rounded-b px-4 py-2 h-20 md:h-12 flex justify-center items-center ${selectedVal === option && "bg-purple-800"}`} 
+                className={`selectable-item hover:bg-teal-800 hover:text-white md:first:hover:rounded-t md:first:rounded-t md:last:hover:rounded-b md:last:rounded-b px-4 py-2 h-20 md:h-12 flex justify-center items-center ${selectedVal === option && "bg-teal-800"}`} 
                 onClick={() => {
                     func(simulatedEvent);
                     setIsOpen(false);

@@ -8,8 +8,8 @@ module.exports = {
         'book-texture': "url('/src/assets/texture.webp')",
       },
       fontFamily: {
-        playfair: ['"Playfair Display"', 'serif'],
-        merriweather: ['Merriweather', 'serif'],
+        roboto: ['Roboto', 'sans-serif'],
+        poppins: ['Poppins', 'sans-serif'],
       },
     }
   },

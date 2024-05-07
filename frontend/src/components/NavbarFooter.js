@@ -4,15 +4,11 @@ import bookicon from '.././assets/bookicon.webp';
 
 export default function NavbarFooter({ children }) {
 
-    const { isAuthenticated, loading } = useAuth();
-
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+    const { isAuthenticated } = useAuth();
 
     return (
         <>
-            <nav className="bg-teal-700 h-20 px-10 gap-3 flex justify-between">
+            <nav className="bg-gradient-to-r from-teal-800 to-teal-600 h-20 px-10 gap-3 flex justify-between">
                     <div className="flex justify-start items-center">
                         <LightLink to="/">
                             <img src={bookicon} alt="Home link icon" className="h-20" />
@@ -29,13 +25,13 @@ export default function NavbarFooter({ children }) {
                     </div>
             </nav>
 
-            <div className="bg-book-texture">
-                <div className="bg-amber-50 w-full h-full bg-opacity-50 m-0"> 
+            <div className="bg-white">
+                <div className="bg-white w-full h-full bg-opacity-50 m-0"> 
                     {children}
                 </div>
             </div>
             
-            <div className="bg-teal-700 h-20 px-10 gap-3 flex justify-center items-center">
+            <div className="bg-gradient-to-r from-teal-800 to-teal-600 h-20 px-10 gap-3 flex justify-center items-center">
                 <LightLink to="about">About</LightLink>
                 <LightLink to="https://github.com/Chromoprotein">Github</LightLink>
                 <LightLink to="more">More websites</LightLink>
