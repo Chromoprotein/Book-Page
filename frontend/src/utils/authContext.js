@@ -1,10 +1,11 @@
-// This page is for testing client-side authentication
-
-import React, { useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
-export const useAuth = () => {
-  // Initialize isAuthenticated from sessionStorage
+// Creating the context
+const AuthContext = createContext();
+
+// Provider component
+export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(sessionStorage.getItem('isAuthenticated') === 'true');
   const [loading, setLoading] = useState(true);
 
@@ -24,13 +25,21 @@ export const useAuth = () => {
       }
     };
 
-    // Only run the check if isAuthenticated is not defined
     if (sessionStorage.getItem('isAuthenticated') === null) {
       checkAuthStatus();
     } else {
       setLoading(false);
     }
-  }, []);  // Empty dependency array means this runs once on component mount
+  }, []);
 
-  return { isAuthenticated, loading };
+  return (
+    <AuthContext.Provider value={{ isAuthenticated, loading, setIsAuthenticated }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+// Hook to use authentication context
+export const useAuth = () => {
+  return useContext(AuthContext);
 };

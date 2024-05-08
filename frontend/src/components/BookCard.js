@@ -18,13 +18,13 @@ export default function BookCard({book, details}) {
             <div className="flex flex-col p-5">
                 <SpecialText>{title}</SpecialText>
                 <div>
-                    <BodyText><span class="material-symbols-outlined">ink_pen</span>{author}</BodyText>
-                    <BodyText><span class="material-symbols-outlined">book_2</span> {genre}</BodyText>
-                    <BodyText><span class="material-symbols-outlined">book_2</span> Series </BodyText>
-                    <BodyText><span class="material-symbols-outlined">book_2</span> Rating</BodyText>
+                    <BodyText><span className="material-symbols-outlined">ink_pen</span>{author}</BodyText>
+                    <BodyText><span className="material-symbols-outlined">book_2</span> {genre}</BodyText>
+                    <BodyText><span className="material-symbols-outlined">book_2</span> Series </BodyText>
+                    <BodyText><span className="material-symbols-outlined">book_2</span> Rating</BodyText>
                 </div>
                 <div className="mt-5">
-                    {details && <DarkLink to={`details/${_id}`}>Details</DarkLink>}
+                    {details && <DarkLink to={`../details/${_id}`}>Details</DarkLink>}
                 </div>
             </div>
 

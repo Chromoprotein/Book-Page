@@ -7,6 +7,8 @@ import { handleAxiosError } from '../utils/handleAxiosError';
 import { navigateWithTimeout } from '../utils/navigateWithTimeout';
 import Message from './smallReusables/Message';
 import { TitleText } from './smallReusables/TextComponents';
+import FormWrapper from './smallReusables/FormWrapper';
+import { useAuth } from '../utils/authContext';
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -15,6 +17,8 @@ export default function Login() {
   });
   const [message, setMessage] = useState();
   const navigate = useNavigate();
+
+  const { isAuthenticated, loading, setIsAuthenticated } = useAuth();
 
   const handleChange = (e) => {
     setFormData({
@@ -33,6 +37,8 @@ export default function Login() {
           );
           if (response.status === 201) {
             setMessage(response.data.message)
+            setIsAuthenticated(true);
+            sessionStorage.setItem('isAuthenticated', 'true');
             navigateWithTimeout(navigate);
           }
       } catch (error) {
@@ -40,20 +46,18 @@ export default function Login() {
       }
   }
 
+  const formIsFilled = Object.keys(formData).every(key => {  
+      const value = formData[key];
+      return value !== null && value !== undefined && value !== '';
+  });
+
   return (
-    <div className="min-h-screen">
-      <form className="w-1/2 shadow-md rounded-lg p-10 mx-auto flex flex-col justify-center gap-6 mt-5 border-t-4 border-teal-800">
-        <TitleText>Log in</TitleText>
+    <FormWrapper title="Log in" formIsFilled={formIsFilled} handleSubmit={handleSubmit} message={message}>
 
         <Input name="username" placeholder="Username" stateValue={formData.username} func={handleChange} />
 
         <Input name="password" placeholder="Password" type="password" stateValue={formData.password} func={handleChange} />
 
-        <Button type="submit" name="Log in" func={handleSubmit}/>
-        
-        {message && <Message message={message} />}
-
-      </form>
-    </div>
+    </FormWrapper>
   );
 };

@@ -8,7 +8,6 @@ const { register, login, userStatus, logout } = require("./Auth")
 router.route("/register").post(register)
 router.route("/login").post(login)
 router.route("/userStatus").get(userStatus)
-// Only for users and admins
-router.route("/logout").post(userAuth, logout)
+router.route("/logout").post(logout)
 
 module.exports = router

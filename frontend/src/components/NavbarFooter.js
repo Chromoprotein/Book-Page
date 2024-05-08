@@ -1,10 +1,14 @@
-import { useAuth } from '../utils/useAuth';
+import { useAuth } from '../utils/authContext';
 import { LightLink, TitleLink } from './smallReusables/EasyLink';
 import bookicon from '.././assets/bookicon.webp';
 
 export default function NavbarFooter({ children }) {
 
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, loading } = useAuth();
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <>

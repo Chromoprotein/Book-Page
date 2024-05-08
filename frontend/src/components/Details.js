@@ -9,6 +9,8 @@ import { handleAxiosError } from '../utils/handleAxiosError';
 import { useNavigate } from 'react-router-dom';
 import { navigateWithTimeout } from '../utils/navigateWithTimeout';
 import Message from './smallReusables/Message';
+import { TitleText } from './smallReusables/TextComponents';
+import { BodyText } from './smallReusables/TextComponents';
 
 export default function Details() {
 
@@ -82,7 +84,7 @@ export default function Details() {
     }
 
     return (
-        <div>
+        <div className="min-h-screen w-full flex flex-col">
             {message && <Message message={message} />}
             {book &&
                 <>

@@ -17,7 +17,7 @@ export default function LoggedOutFrontPage() {
                         <div className="">
                             <TitleText>Challenge yourself to read more </TitleText>
                             <SpecialText>A distraction-free way to track your reading progress and what books you love</SpecialText>
-                            <LinkButton to={`register`} name="Create a free account" />
+                            <LinkButton to={`../register`} name="Create a free account" />
                         </div>
                         
                     </div>
@@ -37,7 +37,7 @@ export default function LoggedOutFrontPage() {
 
                     <Icon img={bookicon}>Completely free!</Icon>
                 </div>
-                <LinkButton to={`register`} name="Start now" />
+                <LinkButton to={`../register`} name="Start now" />
             </div>
 
         </div>

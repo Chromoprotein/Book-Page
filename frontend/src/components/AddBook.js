@@ -30,7 +30,7 @@ export default function AddBook() {
 
       if (response.status === 201) {
           setMessage(response.data.message);
-          navigateWithTimeout(navigate, `/getBooks/details/${response.data.bookId}`);
+          navigateWithTimeout(navigate, `/details/${response.data.bookId}`);
       }
     } catch (error) {
       setMessage(handleAxiosError(error));

@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { navigateWithTimeout } from "../utils/navigateWithTimeout";
 import { handleAxiosError } from "../utils/handleAxiosError";
 import Message from "./smallReusables/Message";
+import { useAuth } from "../utils/authContext";
 
 export default function Logout() {
 
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
+    const { isAuthenticated, loading, setIsAuthenticated } = useAuth();
 
     useEffect(() => {
         async function logout() {
@@ -17,6 +19,9 @@ export default function Logout() {
                     withCredentials: true
                 });
                 setMessage(response.data.message);
+                console.log("logout message " + message)
+                sessionStorage.removeItem('isAuthenticated');
+                setIsAuthenticated(null);
                 navigateWithTimeout(navigate);
             } catch (error) {
                 const errorMessage = handleAxiosError(error);
@@ -24,13 +29,11 @@ export default function Logout() {
             }
         }
         logout();
-        sessionStorage.removeItem('isAuthenticated');
-        sessionStorage.removeItem('userRole');
-    }, [navigate])
+    })
 
     return (
-        <>
+        <div>
             {message && <Message message={message} />}
-        </>
+        </div>
     );
 }

@@ -7,6 +7,8 @@ import { handleAxiosError } from '../utils/handleAxiosError';
 import { navigateWithTimeout } from '../utils/navigateWithTimeout';
 import { useNavigate } from 'react-router-dom';
 import Message from './smallReusables/Message';
+import { TitleText } from './smallReusables/TextComponents';
+import FormWrapper from './smallReusables/FormWrapper';
 
 export default function Register() {
   const [cookies, setCookie, removeCookie] = useCookies(['jwt']);
@@ -46,13 +48,11 @@ export default function Register() {
       return value !== null && value !== undefined && value !== '';
   });
 
-  // The form will grow so that is why it's not combined with the login form
+  // The form will have additional elements like repeat password, email, so it's not combined with login
   return (
-    <form onSubmit={handleSubmit}>
-      <Input name="username" stateValue={formData.username} func={handleChange} />
-      <Input name="password" stateValue={formData.password} func={handleChange} />
-      <Button type="submit" name="Register" optionalDisabledCondition={formIsFilled ? false : true} func={handleSubmit}/>
-      {message && <Message message={message} />}
-    </form>
+    <FormWrapper title="Register" formIsFilled={formIsFilled} handleSubmit={handleSubmit} message={message}>
+        <Input name="username" stateValue={formData.username} func={handleChange} placeholder="Username" />
+        <Input name="password" stateValue={formData.password} func={handleChange} placeholder="Password" />
+    </FormWrapper>
   );
 };
