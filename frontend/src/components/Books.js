@@ -12,6 +12,7 @@ import EasyLink from './smallReusables/EasyLink';
 import Message from './smallReusables/Message';
 import MiniButton from './smallReusables/MiniButton';
 import { TitleText } from './smallReusables/TextComponents';
+import ContentWrapper from './smallReusables/ContentWrapper';
 
 export default function Books() {
 
@@ -104,8 +105,8 @@ export default function Books() {
   }
 
   return (
-    <div className="w-2/3 mx-auto min-h-screen pt-10">
-        <div className="text-center m-10">
+    <ContentWrapper>
+        <div className="text-center">
             <TitleText>Your bookshelf</TitleText>
         </div>
 
@@ -147,6 +148,6 @@ export default function Books() {
             </div>
           }
 
-    </div>
+    </ContentWrapper>
   );
 };

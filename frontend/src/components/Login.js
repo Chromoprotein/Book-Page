@@ -9,6 +9,7 @@ import Message from './smallReusables/Message';
 import { TitleText } from './smallReusables/TextComponents';
 import FormWrapper from './smallReusables/FormWrapper';
 import { useAuth } from '../utils/authContext';
+import ContentWrapper from './smallReusables/ContentWrapper';
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -52,12 +53,14 @@ export default function Login() {
   });
 
   return (
-    <FormWrapper title="Log in" formIsFilled={formIsFilled} handleSubmit={handleSubmit} message={message}>
+    <ContentWrapper>
+      <FormWrapper title="Log in" formIsFilled={formIsFilled} handleSubmit={handleSubmit} message={message}>
 
-        <Input name="username" placeholder="Username" stateValue={formData.username} func={handleChange} />
+          <Input name="username" placeholder="Username" stateValue={formData.username} func={handleChange} />
 
-        <Input name="password" placeholder="Password" type="password" stateValue={formData.password} func={handleChange} />
+          <Input name="password" placeholder="Password" type="password" stateValue={formData.password} func={handleChange} />
 
-    </FormWrapper>
+      </FormWrapper>
+    </ContentWrapper>
   );
 };

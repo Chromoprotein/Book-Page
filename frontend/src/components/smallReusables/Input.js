@@ -11,6 +11,7 @@ export default function Input({ name, type = "text", placeholder, stateValue, fu
             name={name}
             value={stateValue}
             onChange={func}
+            type={type}
             placeholder={placeholder ? placeholder : name}
             required
           />

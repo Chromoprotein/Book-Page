@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { DarkLink } from './smallReusables/EasyLink';
 import Message from './smallReusables/Message';
 import { TitleText } from './smallReusables/TextComponents';
+import ContentWrapper from './smallReusables/ContentWrapper';
 
 export default function AddBook() {
 
@@ -38,11 +39,14 @@ export default function AddBook() {
   };
 
     return (
-        <div className="min-h-screen w-1/2 mx-auto flex flex-col">
-          
+        <ContentWrapper>
           {message && <Message message={message} />}
+          
           <DumbBookForm formState={formState} formStateHandler={formStateHandler} submitFormHandler={submitFormHandler} title="What did you read?" />
-          <DarkLink to="/">Return</DarkLink>
-        </div>
+
+          <div className="text-center">
+            <DarkLink to="/">Return</DarkLink>
+          </div>
+        </ContentWrapper>
     );
 };

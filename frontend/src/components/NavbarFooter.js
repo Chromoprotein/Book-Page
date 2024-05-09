@@ -1,6 +1,6 @@
 import { useAuth } from '../utils/authContext';
 import { LightLink, TitleLink } from './smallReusables/EasyLink';
-import bookicon from '.././assets/bookicon.webp';
+import bookicon from '.././assets/bookicon.jpg';
 
 export default function NavbarFooter({ children }) {
 
@@ -15,7 +15,7 @@ export default function NavbarFooter({ children }) {
             <nav className="bg-gradient-to-r from-teal-800 to-teal-600 h-20 px-10 gap-3 flex justify-between">
                     <div className="flex justify-start items-center">
                         <LightLink to="/">
-                            <img src={bookicon} alt="Home link icon" className="h-20" />
+                            <img src={bookicon} alt="Home link icon" className="h-16 rounded-full" />
                         </LightLink>
                         <TitleLink to="/">Booksmosis</TitleLink>
                     </div>
@@ -29,8 +29,8 @@ export default function NavbarFooter({ children }) {
                     </div>
             </nav>
 
-            <div className="bg-white">
-                <div className="bg-white w-full h-full bg-opacity-50 m-0"> 
+            <div className="bg-white min-h-screen">
+                <div className="bg-white w-full h-full bg-opacity-50 pb-10"> 
                     {children}
                 </div>
             </div>

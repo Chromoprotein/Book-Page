@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import Message from './smallReusables/Message';
 import { TitleText } from './smallReusables/TextComponents';
 import FormWrapper from './smallReusables/FormWrapper';
+import ContentWrapper from './smallReusables/ContentWrapper';
 
 export default function Register() {
   const [cookies, setCookie, removeCookie] = useCookies(['jwt']);
@@ -50,9 +51,11 @@ export default function Register() {
 
   // The form will have additional elements like repeat password, email, so it's not combined with login
   return (
-    <FormWrapper title="Register" formIsFilled={formIsFilled} handleSubmit={handleSubmit} message={message}>
-        <Input name="username" stateValue={formData.username} func={handleChange} placeholder="Username" />
-        <Input name="password" stateValue={formData.password} func={handleChange} placeholder="Password" />
-    </FormWrapper>
+    <ContentWrapper>
+      <FormWrapper title="Register" formIsFilled={formIsFilled} handleSubmit={handleSubmit} message={message}>
+          <Input name="username" stateValue={formData.username} func={handleChange} placeholder="Username" />
+          <Input name="password" stateValue={formData.password} func={handleChange} placeholder="Password" />
+      </FormWrapper>
+    </ContentWrapper>
   );
 };

@@ -1,7 +1,7 @@
-import bookicon from '.././assets/bookicon.webp';
-import reader from '.././assets/reader.webp';
-import privacy from '.././assets/privacy.webp';
-import checkboxicon from '.././assets/checkboxicon.webp';
+import bookicon from '.././assets/bookicon.jpg';
+import reader from '.././assets/reader.jpg';
+import privacy from '.././assets/privacy.jpg';
+import checkboxicon from '.././assets/checkboxicon.jpg';
 import Icon from "./smallReusables/Icon";
 import LinkButton from './smallReusables/LinkButton';
 import { TitleText, SpecialText } from './smallReusables/TextComponents';
