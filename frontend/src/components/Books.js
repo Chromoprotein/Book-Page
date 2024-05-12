@@ -96,10 +96,11 @@ export default function Books() {
 
   const paginationButtonNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
 
-  const paginate = async (e) => {
+  const paginate = (e) => {
     e.preventDefault();
-    setCurrentPage(e.target.value);
+    setCurrentPage(parseInt(e.target.value, 10));
 
+    console.log(e.target.value)
     // Triggers the useEffect
     setIsSubmit(true);
   }
