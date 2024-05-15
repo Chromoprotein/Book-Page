@@ -7,13 +7,17 @@ import { SpecialText } from "./smallReusables/TextComponents";
 
 export default function BookCard({book, details}) {
 
-    const {_id, title, author, genre} = book;
+    const {_id, title, author, genre, coverUrl} = book;
+
+    const coverSrc = coverUrl ? `https://covers.openlibrary.org/b/id/${coverUrl}-M.jpg` : bookPlaceholder;
 
     return (
 
         <div className="w-96 bg-white shadow-md m-4 rounded-lg border-t-4 border-teal-800 grid grid-cols-2">
 
-            <Link to={`details/${_id}`}><img src={bookPlaceholder} alt="Book cover" className="rounded-l-lg h-full object-cover" /></Link>
+            <Link to={`details/${_id}`}>
+                <img src={coverSrc} alt="Book cover" className="rounded-l-lg h-full object-cover" />
+            </Link>
 
             <div className="flex flex-col p-5">
                 <SpecialText>{title}</SpecialText>

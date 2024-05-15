@@ -2,12 +2,14 @@ import React from "react";
 import { BodyText } from "./TextComponents";
 import { SpecialText } from "./TextComponents";
 
-export default function Input({ name, type = "text", placeholder, stateValue, func }) {
+export default function Input({ name, type = "text", placeholder, stateValue, func, alert }) {
+
+  const alertStyle = alert ? "border-red-500" : "border-teal-700 bg-white"
 
     return (
       <div className="w-full">
           <input
-            className="p-3 my-5 border-b-4 border-teal-700 bg-white text-gray-900 text-gray-200 w-full placeholder:text-teal-700 placeholder:font-playfair"
+            className={`p-3 my-5 border-b-4 text-gray-900 text-gray-200 w-full placeholder:text-teal-700 placeholder:font-playfair ${alertStyle}`}
             name={name}
             value={stateValue}
             onChange={func}

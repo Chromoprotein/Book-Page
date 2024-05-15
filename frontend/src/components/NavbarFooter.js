@@ -12,7 +12,7 @@ export default function NavbarFooter({ children }) {
 
     return (
         <>
-            <nav className="bg-gradient-to-r from-teal-800 to-teal-600 h-20 px-10 gap-3 flex justify-between">
+            <nav className="bg-gradient-to-r from-teal-800 to-teal-600 h-20 px-10 gap-3 flex justify-between ">
                     <div className="flex justify-start items-center">
                         <LightLink to="/">
                             <img src={bookicon} alt="Home link icon" className="h-16 rounded-full" />

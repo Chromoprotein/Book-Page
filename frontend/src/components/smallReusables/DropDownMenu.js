@@ -3,7 +3,7 @@ import Button from "./Button";
 import useGenericKeyDown from "../../utils/useGenericKeyDown";
 import useOutsideAlerter from "../../utils/useOutsideAlerter";
 
-export default function DropDownMenu({ name, arr, selectedVal, func }) {
+export default function DropDownMenu({ name, arr, selectedVal, func, alert }) {
 
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -28,7 +28,7 @@ export default function DropDownMenu({ name, arr, selectedVal, func }) {
 
   return (
     <>
-      <Button type="button" func={toggleDropdown}>{selectedVal ? name + ": " + selectedVal : name}</Button>
+      <Button type="button" func={toggleDropdown} alert={alert}>{selectedVal ? name + ": " + selectedVal : name}</Button>
       
       <div className="relative" ref={dropdownRef}>
 

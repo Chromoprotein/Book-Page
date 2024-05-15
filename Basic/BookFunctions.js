@@ -103,7 +103,7 @@ exports.getBookById = async (req, res) => {
 
 exports.addBook = async (req, res) => {
   try {
-    const { title, author, genre } = req.body
+    const { title, author, genre, coverUrl } = req.body
     // User id comes from authentication middleware
     const userId = req.id;
 
@@ -112,7 +112,7 @@ exports.addBook = async (req, res) => {
         message: "Form information missing or user not found",
       })
     } else {
-      const book = await Book.create({ userId, title, author, genre })
+      const book = await Book.create({ userId, title, author, genre, coverUrl })
       if(book) {
         res.status(201).json({
           message: "Book successfully created",
