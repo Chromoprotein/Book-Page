@@ -13,6 +13,8 @@ import Message from './smallReusables/Message';
 import MiniButton from './smallReusables/MiniButton';
 import { TitleText } from './smallReusables/TextComponents';
 import ContentWrapper from './smallReusables/ContentWrapper';
+import { IoIosSearch } from "react-icons/io";
+import IconContainer from './smallReusables/IconContainer';
 
 export default function Books() {
 
@@ -113,16 +115,19 @@ export default function Books() {
 
         {message && <Message message={message} />}
 
-        <form className="flex flex-col shadow-md border-t-4 border-teal-800 items-center gap-5 bg-white rounded-lg p-10 my-10 h-2/3">
-          <Input name="search" stateValue={searchQuery} placeholder="Search books" func={searchQueryHandler} />
-
-          <div className="flex flex-row gap-5">
-            <DropDownMenu name="Genre" arr={genreArray} func={searchGenreHandler} selectedVal={searchGenre} />
-
-            <DropDownMenu name="Sort by" arr={sortArray} func={sortHandler} selectedVal={sortBy} />
-
-            <Button type="submit" name="Search" func={searchBooksHandeler} />
+        <form className="shadow-md border-t-4 border-teal-800  bg-white rounded-lg p-10 my-10 flex flex-col justify-center items-center">
+          <div className=" flex flex-row flex-wrap gap-4 items-center justify-center mb-5">
+            <div className="w-48">
+              <Input name="search" stateValue={searchQuery} placeholder="Type title or author" func={searchQueryHandler} />
+            </div>
+            <div className="w-48">
+              <DropDownMenu name="Genre" arr={genreArray} func={searchGenreHandler} selectedVal={searchGenre} />
+            </div>
+            <div className="w-48">
+              <DropDownMenu name="Sort by" arr={sortArray} func={sortHandler} selectedVal={sortBy} />
+            </div>
           </div>
+          <Button type="submit" name="Search" func={searchBooksHandeler} ><IconContainer><IoIosSearch /> Search</IconContainer></Button>
         </form>
 
 
@@ -131,7 +136,7 @@ export default function Books() {
               <div className="flex flex-row flex-wrap justify-center">
                 {books.map((book, index) => {
                   return (
-                    <BookCard key={index} book={book} details={true} />
+                    <BookCard key={index} book={book} />
                   ) 
                 })}
               </div>

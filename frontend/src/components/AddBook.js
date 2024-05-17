@@ -11,19 +11,24 @@ import MiniButton from './smallReusables/MiniButton';
 import Input from "./smallReusables/Input";
 import DropDownMenu from "./smallReusables/DropDownMenu";
 import { genreArray } from "../utils/optionArrays";
-import { TitleText } from "./smallReusables/TextComponents";
+import { TitleText, BodyText } from "./smallReusables/TextComponents";
 import bookPlaceholder from '.././assets/book.webp';
+import IconContainer from './smallReusables/IconContainer';
+import useGenericKeyDown from '../utils/useGenericKeyDown';
+import { FaRegStar, FaStar } from "react-icons/fa";
+import Textarea from './smallReusables/Textarea';
+import FormButton from './smallReusables/FormButton';
+import { IoIosSearch } from "react-icons/io";
 
 export default function AddBook() {
 
-    const initialState = { title: "", author: "", genre: "", coverUrl: "" };
+    const initialState = { title: "", author: "", genre: "", coverUrl: "", stars: "", notes: "", series: "" };
     const [formState, setFormState] = useState(initialState);
     const [bookCovers, setBookCovers] = useState([]);
     const [currentBookCover, setCurrentBookCover] = useState(0);
     const [message, setMessage] = useState();
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
-    const [showPlaceholder, setShowPlaceholder] = useState(false);
 
     const formStateHandler = (e) => {
         setFormState((prevState) => ({
@@ -85,15 +90,13 @@ export default function AddBook() {
       });
 
       if(bookUrls.length === 0) {
-        setMessage("No covers found for that book");
+        setMessage("No covers found for that book. A placeholder will be used instead.");
         setFormState((prevState) => ({
           ...prevState,
           coverUrl: "",
         }));
-        setShowPlaceholder(true);
       } else {
         setBookCovers(bookUrls);
-        setShowPlaceholder(false);
         setFormState((prevState) => ({
             ...prevState, 
             coverUrl: response.data.docs[0].cover_i,
@@ -117,19 +120,29 @@ export default function AddBook() {
     }))
   }
 
+  // Accessibility
+  // (selectedItem) => { ... } is a callback function which is excuted by pressing enter
+  const handleKeyDown = useGenericKeyDown((selectedItem) => {
+    const index = parseInt(selectedItem.getAttribute('value'), 10); 
+    const simulatedEvent = {
+      target: {name: "stars", value: index + 1,}
+    };
+    formStateHandler(simulatedEvent);
+  }, { next: 'ArrowRight', prev: 'ArrowLeft' });
+
     return (
       <ContentWrapper>
         {message && <Message message={message} onClose={closeMessage} />}
 
-        <form className="flex flex-col justify-center shadow-md border-t-4 border-teal-800 items-center gap-5 bg-white rounded-lg w-full p-10 my-10 h-2/3">
+        <form className="flex flex-col justify-start shadow-md border-t-4 border-teal-800 items-start gap-5 bg-white rounded-lg w-full p-10 my-10 h-2/3 w-full">
 
           <TitleText>What did you read?</TitleText>
-
+      
           <Input name="title" placeholder="Title" stateValue={formState.title} func={formStateHandler} alert={errors.title} />
 
           <Input name="author" placeholder="Author" stateValue={formState.author} func={formStateHandler} alert={errors.author} />
 
-          <Button type="button" func={searchCover}>Search covers</Button>
+          <FormButton name="cover" type="button" func={searchCover}><IconContainer><IoIosSearch /> Click to search covers</IconContainer></FormButton>
 
           {formState.coverUrl && 
             <div className="flex flex-col justify-center items-center">
@@ -140,21 +153,41 @@ export default function AddBook() {
               </div>
             </div>
           }
-
-          {showPlaceholder && 
-            <div className="flex flex-col justify-center items-center">
-              <img src={bookPlaceholder} alt="Book cover" className="w-48 m-5 rounded-lg"  />
-              <p>A placeholder cover will be used because no covers were found</p>
-            </div>
-          }
           
+          <Input name="series" placeholder="Series" func={formStateHandler} />
+
+          <div className="w-full">
+            <label className="text-sm font-bold text-teal-700 font-roboto p-1" for="stars">RATING</label>
+            <IconContainer>
+                {[...Array(5)].map((_, index) => {
+                    const simulatedEvent = {
+                      target: {name: "stars", value: index + 1,}
+                    };
+                    return <span 
+                      data-testid={`star-test-${index}`}
+                      key={index} 
+                      value={index}
+                      tabIndex="0" 
+                      className="selectable-item text-teal-800 mb-2" 
+                      onKeyDown={handleKeyDown}
+                      role="button"
+                      aria-label={`Rate ${index} star${index > 1 ? 's' : ''}`}
+                      onClick={() => formStateHandler(simulatedEvent)}>
+                        {index < formState.stars ? <FaStar size="28px" /> : <FaRegStar size="28px" />}
+                    </span>
+                })}
+            </IconContainer>
+          </div>
+
+          <Textarea name="notes" placeholder="Notes or review" func={formStateHandler}></Textarea>
+
           <DropDownMenu name="genre" arr={genreArray} func={formStateHandler} selectedVal={formState.genre} alert={errors.genre} />
 
           <Button type="submit" name="Submit"  func={submitFormHandler} />
 
         </form>
 
-        <div className="text-center">
+        <div className="text-start">
           <DarkLink to="/">Return</DarkLink>
         </div>
       </ContentWrapper>

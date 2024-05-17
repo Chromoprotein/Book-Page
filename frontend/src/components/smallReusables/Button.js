@@ -8,7 +8,7 @@ export default function Button({type, name, optionalValue, optionalDisabledCondi
 
     return (
         <button 
-            className={`rounded-full w-48 px-5 text-center p-1 font-bold tracking-wide font-playfair h-12 ${disabledStyle} ${alertStyle}`}
+            className={`rounded-full w-48 px-5 text-center flex justify-center items-center p-1 font-bold tracking-wide font-playfair h-12 ${disabledStyle} ${alertStyle}`}
             type={type} 
             name={name} 
             value={optionalValue} 

@@ -4,17 +4,18 @@ import { SpecialText } from "./TextComponents";
 
 export default function Input({ name, type = "text", placeholder, stateValue, func, alert }) {
 
-  const alertStyle = alert ? "border-red-500" : "border-teal-700 bg-white"
+  const alertStyle = alert ? "border-b-4 border-red-500" : "border-0 bg-slate-100"
 
     return (
-      <div className="w-full">
+      <div className="flex flex-col w-full">
+          <label className="text-sm text-teal-700 font-bold font-roboto p-1" for={name}>{name.toUpperCase()}</label>
           <input
-            className={`p-3 my-5 border-b-4 text-gray-900 text-gray-200 w-full placeholder:text-teal-700 placeholder:font-playfair ${alertStyle}`}
+            className={`p-3 my-2 rounded-lg text-gray-900 h-12 placeholder:text-gray-900 placeholder:font-roboto focus:shadow-md shadow-inner ${alertStyle}`}
             name={name}
             value={stateValue}
             onChange={func}
             type={type}
-            placeholder={placeholder ? placeholder : name}
+            placeholder={placeholder}
             required
           />
       </div>

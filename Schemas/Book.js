@@ -18,6 +18,18 @@ const bookSchema = new Schema({
     type: String,
     required: false,
   },
+  stars: {
+    type: String,
+    required: false,
+  },
+  notes: {
+    type: String,
+    required: false,
+  },
+  series: {
+    type: String,
+    required: false,
+  },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

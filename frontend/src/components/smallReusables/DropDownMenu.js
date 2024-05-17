@@ -2,6 +2,10 @@ import { useState, useRef } from "react";
 import Button from "./Button";
 import useGenericKeyDown from "../../utils/useGenericKeyDown";
 import useOutsideAlerter from "../../utils/useOutsideAlerter";
+import { BodyText } from "./TextComponents";
+import FormButton from "./FormButton";
+import { IoIosArrowDown } from "react-icons/io";
+import IconContainer from "./IconContainer";
 
 export default function DropDownMenu({ name, arr, selectedVal, func, alert }) {
 
@@ -28,15 +32,15 @@ export default function DropDownMenu({ name, arr, selectedVal, func, alert }) {
 
   return (
     <>
-      <Button type="button" func={toggleDropdown} alert={alert}>{selectedVal ? name + ": " + selectedVal : name}</Button>
+      <FormButton type="button" name={name} func={toggleDropdown} alert={alert}>{selectedVal ? selectedVal : <IconContainer>Please select <IoIosArrowDown /></IconContainer>}</FormButton>
       
-      <div className="relative" ref={dropdownRef}>
+      <div className="relative w-full" ref={dropdownRef}>
 
         {isOpen && (
           <ul 
             tabIndex="0" 
             role="listbox" 
-            className="fixed inset-0 md:inset-auto z-50 md:absolute md:z-10 md:mt-1 bg-white md:rounded-md shadow-lg w-screen md:w-32 h-fit">
+            className="fixed md:absolute inset-0 z-50 md:z-10 bg-white md:rounded-md shadow-lg w-screen md:w-full h-fit md:h-48 overflow-y-scroll">
 
             {arr.map((option, index) => {
               // Simulate an event object
@@ -52,7 +56,7 @@ export default function DropDownMenu({ name, arr, selectedVal, func, alert }) {
                 data-option-value={option}
                 data-name={name}
                 // Other stuff
-                className={`selectable-item hover:bg-teal-800 hover:text-white md:first:hover:rounded-t md:first:rounded-t md:last:hover:rounded-b md:last:rounded-b px-4 py-2 h-20 md:h-12 flex justify-center items-center ${selectedVal === option && "bg-teal-800"}`} 
+                className={`selectable-item bg-slate-100 hover:bg-teal-500 hover:text-white md:first:hover:rounded-t md:first:rounded-t md:last:hover:rounded-b md:last:rounded-b px-4 py-2 h-20 md:h-12 flex justify-center items-center md:w-full ${selectedVal === option && "bg-teal-500"}`} 
                 onClick={() => {
                     func(simulatedEvent);
                     setIsOpen(false);
