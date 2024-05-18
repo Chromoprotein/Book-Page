@@ -1,18 +1,50 @@
 import { useAuth } from '../utils/authContext';
 import { LightLink, TitleLink } from './smallReusables/EasyLink';
 import bookicon from '.././assets/bookicon.jpg';
+import Message from './smallReusables/Message';
+import { useRef, useEffect, useState } from 'react';
 
 export default function NavbarFooter({ children }) {
 
-    const { isAuthenticated, loading } = useAuth();
+    const { isAuthenticated } = useAuth();
+    const navbarRef = useRef(null);
+    const notificationBarRef = useRef(null);
+    const [message, setMessage] = useState();
 
-    if (loading) {
-        return <div>Loading...</div>;
+    useEffect(() => {
+        if(message) {
+            const handleScroll = () => {
+            const navbar = navbarRef.current;
+            const notificationBar = notificationBarRef.current;
+            const navbarHeight = navbar.offsetHeight;
+            const scrollTop = document.documentElement.scrollTop;
+
+            if (scrollTop > navbarHeight) {
+                notificationBar.style.position = 'fixed';
+                notificationBar.style.top = '0';
+            } else {
+                notificationBar.style.position = 'absolute';
+                notificationBar.style.top = `${navbarHeight}px`;
+            }
+            };
+
+            window.addEventListener('scroll', handleScroll);
+            handleScroll(); // Initialize position on load
+
+            // Cleanup the event listener on component unmount
+            return () => {
+                window.removeEventListener('scroll', handleScroll);
+            };
+        }
+    }, [message]);
+
+    const closeMessage = () => {
+        setMessage("");
     }
 
     return (
         <>
-            <nav className="bg-gradient-to-r from-teal-800 to-teal-600 h-20 px-10 gap-3 flex justify-between ">
+            <nav className="navbar bg-gradient-to-r from-teal-800 to-teal-600 h-20 px-10 gap-3 flex justify-between" ref={navbarRef}>
                     <div className="flex justify-start items-center">
                         <LightLink to="/">
                             <img src={bookicon} alt="Home link icon" className="h-16 rounded-full" />
@@ -28,6 +60,13 @@ export default function NavbarFooter({ children }) {
                         {isAuthenticated && <LightLink to="logout">Log out</LightLink>}
                     </div>
             </nav>
+
+            {message &&
+                <div className="notification-bar bg-teal-700 text-white z-40 w-full top-0 left-0 right-0 absolute flex flex-row justify-between p-2" ref={notificationBarRef}>
+                    <p>{message}</p>
+                    <button onClick={closeMessage}>X</button>
+                </div>
+            }
 
             <div className="bg-white min-h-screen">
                 <div className="bg-white w-full h-full bg-opacity-50 pb-10"> 

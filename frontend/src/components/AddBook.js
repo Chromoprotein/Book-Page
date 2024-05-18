@@ -19,8 +19,12 @@ import { FaRegStar, FaStar } from "react-icons/fa";
 import Textarea from './smallReusables/Textarea';
 import FormButton from './smallReusables/FormButton';
 import { IoIosSearch } from "react-icons/io";
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export default function AddBook() {
+
+    let { id } = useParams();
 
     const initialState = { title: "", author: "", genre: "", coverUrl: "", stars: "", notes: "", series: "" };
     const [formState, setFormState] = useState(initialState);
@@ -29,6 +33,32 @@ export default function AddBook() {
     const [message, setMessage] = useState();
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
+
+    // If navigated here from a book details page, fetch the form details for editing
+    useEffect(() => {
+      if (id) {
+        const getBook = async () => {
+            try {
+                const url = `${process.env.REACT_APP_BOOK_DETAIL_URI}/${id}`;
+                const res = await axios.get(url, { 
+                    withCredentials: true
+                });
+                setFormState({ 
+                  title: res.data.book.title, 
+                  author: res.data.book.author, 
+                  genre: res.data.book.genre, 
+                  stars: res.data.book.stars, 
+                  notes: res.data.book.notes, 
+                  series: res.data.book.series,
+                  coverUrl: res.data.book.coverUrl })
+            } catch (err) {
+                const errorMessage = handleAxiosError(err);
+                navigate('*', { state: { message: errorMessage } });
+            }
+        }
+        getBook();
+      }
+    }, [id, navigate])
 
     const formStateHandler = (e) => {
         setFormState((prevState) => ({
@@ -61,11 +91,20 @@ export default function AddBook() {
       setErrors({});
       setMessage("");
       try {
-        const response = await axios.post(process.env.REACT_APP_ADD_URI, formState, { withCredentials: true });
-
-        if (response.status === 201) {
+        if(id) { // Editing
+            console.log("id is " + id)
+            console.log(formState)
+            const url = `${process.env.REACT_APP_UPDATE_BOOK_URI}/${id}`; // Include book ID in URL
+            const response = await axios.put(url, formState, { withCredentials: true });
             setMessage(response.data.message);
-            navigateWithTimeout(navigate, `/details/${response.data.bookId}`);
+            navigateWithTimeout(navigate, `/details/${id}`);
+        } else { // Posting a new book
+          const response = await axios.post(process.env.REACT_APP_ADD_URI, formState, { withCredentials: true });
+
+          if (response.status === 201) {
+              setMessage(response.data.message);
+              navigateWithTimeout(navigate, `/details/${response.data.bookId}`);
+          }
         }
       } catch (error) {
         setMessage(handleAxiosError(error));
@@ -154,7 +193,7 @@ export default function AddBook() {
             </div>
           }
           
-          <Input name="series" placeholder="Series" func={formStateHandler} />
+          <Input name="series" placeholder="Series" stateValue={formState.series} func={formStateHandler} />
 
           <div className="w-full">
             <label className="text-sm font-bold text-teal-700 font-roboto p-1" for="stars">RATING</label>
@@ -179,7 +218,7 @@ export default function AddBook() {
             </IconContainer>
           </div>
 
-          <Textarea name="notes" placeholder="Notes or review" func={formStateHandler}></Textarea>
+          <Textarea name="notes" placeholder="Notes or review" func={formStateHandler} stateValue={formState.notes}></Textarea>
 
           <DropDownMenu name="genre" arr={genreArray} func={formStateHandler} selectedVal={formState.genre} alert={errors.genre} />
 

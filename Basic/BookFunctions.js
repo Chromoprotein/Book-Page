@@ -131,7 +131,7 @@ exports.addBook = async (req, res) => {
 
 exports.updateBook = async (req, res) => {
   try {
-    const { title, author, genre } = req.body; // Removed 'id' from here
+    const { title, author, genre, coverUrl, stars, notes, series } = req.body
     const bookId = req.params.id; // Assuming you will use URL parameter for book ID
     const userId = req.id; // User id from authentication middleware
 
@@ -152,6 +152,19 @@ exports.updateBook = async (req, res) => {
     validateBook.title = title;
     validateBook.author = author;
     validateBook.genre = genre;
+    if(stars) {
+      validateBook.stars = stars;
+    }
+    if(notes) {
+      validateBook.notes = notes;
+    }
+    if(coverUrl) {
+      validateBook.coverUrl = coverUrl;
+    }
+    if(series) {
+      validateBook.series = series;
+    }
+    
     await validateBook.save();
 
     res.json({ message: "Book updated successfully" });

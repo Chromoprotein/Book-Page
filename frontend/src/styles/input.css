@@ -19,3 +19,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
+/* Prevent body scroll when the menu is open */
+.no-scroll {
+    overflow: hidden;
+    padding-right: var(--scrollbar-width, 0px);
+    /* Use CSS variable for dynamic padding */
+}
+
+/* Ensure the custom select menu handles its own overflow */
+.selectable-item {
+    cursor: pointer;
+}

@@ -69,7 +69,7 @@ function App() {
         }
       />
       <Route
-        path="addBook"
+        path="addBook/:id?"
         element={
           <RequireAuth redirectTo="/login">
             <AddBook />

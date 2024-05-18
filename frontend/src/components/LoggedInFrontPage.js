@@ -52,7 +52,7 @@ export default function LoggedInFrontPage() {
                             ) 
                             })}
                         </div> 
-                        <div className="text-center">
+                        <div className="text-center mx-auto">
                             <LinkButton to="getBooks">View More</LinkButton>
                         </div>
                     </div> 

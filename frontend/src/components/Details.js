@@ -13,14 +13,14 @@ import ContentWrapper from './smallReusables/ContentWrapper';
 import { DarkLink } from './smallReusables/EasyLink';
 import bookPlaceholder from '.././assets/book.webp';
 import { SpecialText } from './smallReusables/TextComponents';
+import RatingStars from "./smallReusables/RatingStars";
+import NeutralButton from './smallReusables/NeutralButton';
+import LinkButton from './smallReusables/LinkButton';
 
 export default function Details() {
 
     let { id } = useParams();
     const [book, setBook] = useState([]);
-    const [editMode, setEditMode] = useState(false);
-    const [formState, setFormState] = useState({});
-    const [isSubmitted, setIsSubmitted] = useState(false);
     const [message, setMessage] = useState();
     const navigate = useNavigate();
     const [showConfirm, setShowConfirm] = useState(false);
@@ -33,42 +33,19 @@ export default function Details() {
                     withCredentials: true
                 });
                 setBook(res.data.book);
-                setFormState({ title: res.data.book.title, author: res.data.book.author, genre: res.data.book.genre })
             } catch (err) {
                 const errorMessage = handleAxiosError(err);
                 navigate('*', { state: { message: errorMessage } });
             }
         }
         getBook();
-    }, [id, isSubmitted, navigate])
+    }, [id, navigate])
 
-    const toggleEdit = () => {
-        setEditMode((prev) => !prev);
-    }
+    const coverSrc = book.coverUrl ? `https://covers.openlibrary.org/b/id/${book.coverUrl}-L.jpg` : bookPlaceholder;
 
     const toggleConfirm = () => {
         setShowConfirm((prev) => !prev);
     }
-
-    const formStateHandler = (e) => {
-        setFormState((prevState) => ({
-            ...prevState, 
-            [e.target.name]: e.target.value
-        }));
-    }
-
-    const submitFormHandler = async (e) => {
-        e.preventDefault();
-        try {
-            const url = `${process.env.REACT_APP_UPDATE_BOOK_URI}/${book._id}`; // Include book ID in URL
-            const response = await axios.put(url, formState, { withCredentials: true });
-            setMessage(response.data.message);
-            setEditMode(false);
-            setIsSubmitted((prev) => !prev);
-        } catch (error) {
-            setMessage(handleAxiosError(error));
-        }
-    };
 
     const deleteBook = async (e) => {
         e.preventDefault();
@@ -77,8 +54,6 @@ export default function Details() {
             const response = await axios.delete(url, { withCredentials: true });
             console.log(response.data);
             setMessage(response.data.message);
-            setBook(null);
-            setEditMode(false);
             navigateWithTimeout(navigate);
         } catch (error) {
             setMessage(handleAxiosError(error));
@@ -93,37 +68,45 @@ export default function Details() {
                 <>
                     <div className="bg-white shadow-md m-4 rounded-lg grid grid-cols-2 w-full">
 
-                        <img src={bookPlaceholder} alt="Book cover" className="rounded-l-lg h-full object-cover" />
+                        <img src={coverSrc} alt="Book cover" className="rounded-l-lg h-full object-cover" />
 
                         <div className="flex flex-col p-5 justify-between">
                             <SpecialText>{book.title}</SpecialText>
                             <div>
-                                <BodyText><span className="material-symbols-outlined">ink_pen</span>{book.author}</BodyText>
-                                <BodyText><span className="material-symbols-outlined">book_2</span> {book.genre}</BodyText>
-                                <BodyText><span className="material-symbols-outlined">book_2</span> Series </BodyText>
-                                <BodyText><span className="material-symbols-outlined">book_2</span> Rating</BodyText>
+                                <BodyText><span className="material-symbols-outlined text-teal-700">ink_pen</span>{book.author}</BodyText>
+                                <BodyText><span className="material-symbols-outlined text-teal-700">book_2</span> {book.genre}</BodyText>
+                                {book.series && 
+                                    <BodyText>
+                                        <span class="material-symbols-outlined text-teal-700">lists</span> {book.series} 
+                                    </BodyText>
+                                }
+                                {book.stars && 
+                                    <BodyText>
+                                        <RatingStars stars={book.stars}/>
+                                    </BodyText>
+                                }
+                                {book.notes &&
+                                    <BodyText>
+                                        <span class="material-symbols-outlined text-teal-700">reviews</span> {book.notes}
+                                    </BodyText>}
                             </div>
+                            {showConfirm ?
+                                <div className="shadow-lg rounded-lg p-5 bg-slate-100 m-5">
+                                    <BodyText>Confirm you want to delete this book permanently</BodyText>
+                                    <div className="flex flex-row justify-center gap-5">
+                                        <Button type="button" func={deleteBook} name="Continue" />
+                                        <Button type="button" func={toggleConfirm} name="Cancel" />
+                                    </div>
+                                </div>
+                            : 
                             <div className="flex flex-row justify-center gap-5">
-                                <Button type="button" func={toggleEdit} name={editMode ? "Cancel" : "Edit"}/>
-                                <Button type="button" func={toggleConfirm} name="Delete" />
+                                <LinkButton to={`../addBook&=${id}`}>Edit</LinkButton>
+                                <NeutralButton type="button" func={toggleConfirm} name="Delete">Delete</NeutralButton>
                             </div>
+                            }
                         </div>
 
                     </div>
-  
-                    {editMode && 
-                        <DumbBookForm title="Edit book details" formState={formState} formStateHandler={formStateHandler} submitFormHandler={submitFormHandler} />
-                    }
-
-                    {showConfirm &&
-                        <div className="shadow-lg rounded-lg p-5 bg-slate-100 m-5">
-                            <BodyText>Confirm you want to delete this book permanently</BodyText>
-                            <div className="flex flex-row justify-center gap-5">
-                                <Button type="button" func={deleteBook} name="Continue" />
-                                <Button type="button" func={toggleConfirm} name="Cancel" />
-                            </div>
-                        </div>
-                    }
                 </>
             }
 

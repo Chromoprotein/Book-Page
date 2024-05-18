@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Button from "./Button";
 import useGenericKeyDown from "../../utils/useGenericKeyDown";
 import useOutsideAlerter from "../../utils/useOutsideAlerter";
@@ -17,6 +17,28 @@ export default function DropDownMenu({ name, arr, selectedVal, func, alert }) {
   // Click outside the menu closes the menu
   // If the click target is not contained within dropdownRef.current, it's outside the menu
   useOutsideAlerter(dropdownRef, isOpen, setIsOpen);
+
+  useEffect(() => {
+    // Function to calculate scrollbar width to prevent twitching
+    const getScrollbarWidth = () => {
+      return window.innerWidth - document.documentElement.clientWidth;
+    };
+
+    // Add or remove the no-scroll class and padding to the body
+    if (isOpen) {
+      const scrollbarWidth = getScrollbarWidth();
+      document.body.classList.add('no-scroll');
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    } else {
+      document.body.classList.remove('no-scroll');
+      document.body.style.paddingRight = '';
+    }
+
+    return () => {
+      document.body.classList.remove('no-scroll');
+      document.body.style.paddingRight = '';
+    };
+  }, [isOpen]);
 
   // Accessibility
   // (selectedItem) => { ... } is a callback function (handleEnter) which is excuted by pressing enter
@@ -40,7 +62,7 @@ export default function DropDownMenu({ name, arr, selectedVal, func, alert }) {
           <ul 
             tabIndex="0" 
             role="listbox" 
-            className="fixed md:absolute inset-0 z-50 md:z-10 bg-white md:rounded-md shadow-lg w-screen md:w-full h-fit md:h-48 overflow-y-scroll">
+            className="fixed md:absolute inset-0 z-50 md:z-10 bg-white md:rounded-md shadow-lg w-screen md:w-full max-h-screen md:max-h-48 md:h-48 overflow-y-scroll">
 
             {arr.map((option, index) => {
               // Simulate an event object
@@ -56,7 +78,7 @@ export default function DropDownMenu({ name, arr, selectedVal, func, alert }) {
                 data-option-value={option}
                 data-name={name}
                 // Other stuff
-                className={`selectable-item bg-slate-100 hover:bg-teal-500 hover:text-white md:first:hover:rounded-t md:first:rounded-t md:last:hover:rounded-b md:last:rounded-b px-4 py-2 h-20 md:h-12 flex justify-center items-center md:w-full ${selectedVal === option && "bg-teal-500"}`} 
+                className={`selectable-item cursor-pointer bg-slate-100 hover:bg-teal-500 hover:text-white md:first:hover:rounded-t md:first:rounded-t md:last:hover:rounded-b md:last:rounded-b px-4 py-2 h-20 md:h-12 flex justify-center items-center md:w-full ${selectedVal === option && "bg-teal-500"}`} 
                 onClick={() => {
                     func(simulatedEvent);
                     setIsOpen(false);
