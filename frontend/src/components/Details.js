@@ -2,12 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Button from './smallReusables/Button';
-import DumbBookForm from './DumbBookForm';
 import { handleAxiosError } from '../utils/handleAxiosError';
 import { useNavigate } from 'react-router-dom';
 import { navigateWithTimeout } from '../utils/navigateWithTimeout';
-import Message from './smallReusables/Message';
-import { TitleText } from './smallReusables/TextComponents';
 import { BodyText } from './smallReusables/TextComponents';
 import ContentWrapper from './smallReusables/ContentWrapper';
 import { DarkLink } from './smallReusables/EasyLink';
@@ -16,14 +13,15 @@ import { SpecialText } from './smallReusables/TextComponents';
 import RatingStars from "./smallReusables/RatingStars";
 import NeutralButton from './smallReusables/NeutralButton';
 import LinkButton from './smallReusables/LinkButton';
+import { useNotification } from '../utils/notificationContext';
 
 export default function Details() {
 
     let { id } = useParams();
     const [book, setBook] = useState([]);
-    const [message, setMessage] = useState();
     const navigate = useNavigate();
     const [showConfirm, setShowConfirm] = useState(false);
+    const {setNotification} = useNotification();
 
     useEffect(() => {
         const getBook = async () => {
@@ -53,17 +51,16 @@ export default function Details() {
             const url = `${process.env.REACT_APP_DELETE_BOOK_URI}/${book._id}`; // Include book ID in URL
             const response = await axios.delete(url, { withCredentials: true });
             console.log(response.data);
-            setMessage(response.data.message);
+            setNotification(response.data.message);
             navigateWithTimeout(navigate);
         } catch (error) {
-            setMessage(handleAxiosError(error));
+            setNotification(handleAxiosError(error));
         }
     }
 
     return (
         <ContentWrapper>
         <div className="flex flex-col justify-center items-center">
-            {message && <Message message={message} />}
             {book &&
                 <>
                     <div className="bg-white shadow-md m-4 rounded-lg grid grid-cols-2 w-full">
@@ -100,7 +97,7 @@ export default function Details() {
                                 </div>
                             : 
                             <div className="flex flex-row justify-center gap-5">
-                                <LinkButton to={`../addBook&=${id}`}>Edit</LinkButton>
+                                <LinkButton to={`../addBook/${id}`}>Edit</LinkButton>
                                 <NeutralButton type="button" func={toggleConfirm} name="Delete">Delete</NeutralButton>
                             </div>
                             }

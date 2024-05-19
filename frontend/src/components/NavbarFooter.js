@@ -1,18 +1,18 @@
 import { useAuth } from '../utils/authContext';
 import { LightLink, TitleLink } from './smallReusables/EasyLink';
 import bookicon from '.././assets/bookicon.jpg';
-import Message from './smallReusables/Message';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
+import { useNotification } from '../utils/notificationContext';
 
 export default function NavbarFooter({ children }) {
 
     const { isAuthenticated } = useAuth();
     const navbarRef = useRef(null);
     const notificationBarRef = useRef(null);
-    const [message, setMessage] = useState();
+    const {notification, setNotification} = useNotification();
 
     useEffect(() => {
-        if(message) {
+        if(notification) {
             const handleScroll = () => {
             const navbar = navbarRef.current;
             const notificationBar = notificationBarRef.current;
@@ -36,10 +36,10 @@ export default function NavbarFooter({ children }) {
                 window.removeEventListener('scroll', handleScroll);
             };
         }
-    }, [message]);
+    }, [notification]);
 
-    const closeMessage = () => {
-        setMessage("");
+    const closeNotification = () => {
+        setNotification("");
     }
 
     return (
@@ -61,10 +61,10 @@ export default function NavbarFooter({ children }) {
                     </div>
             </nav>
 
-            {message &&
+            {notification &&
                 <div className="notification-bar bg-teal-700 text-white z-40 w-full top-0 left-0 right-0 absolute flex flex-row justify-between p-2" ref={notificationBarRef}>
-                    <p>{message}</p>
-                    <button onClick={closeMessage}>X</button>
+                    <p>{notification}</p>
+                    <button onClick={closeNotification}>X</button>
                 </div>
             }
 

@@ -2,7 +2,7 @@
 export function BodyText({children}) {
     
     return (
-        <p className="text-lg tracking-wide leading-relaxed m-3 font-roboto">{children}</p>
+        <p className="text-lg tracking-wide leading-relaxed font-roboto">{children}</p>
     );
 
 }

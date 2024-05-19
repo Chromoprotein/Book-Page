@@ -8,13 +8,12 @@ import { genreArray } from '../utils/optionArrays';
 import { sortArray } from '../utils/optionArrays';
 import { useNavigate } from 'react-router-dom';
 import { handleAxiosError } from '../utils/handleAxiosError';
-import EasyLink from './smallReusables/EasyLink';
-import Message from './smallReusables/Message';
 import MiniButton from './smallReusables/MiniButton';
 import { TitleText } from './smallReusables/TextComponents';
 import ContentWrapper from './smallReusables/ContentWrapper';
 import { IoIosSearch } from "react-icons/io";
 import IconContainer from './smallReusables/IconContainer';
+import { useNotification } from '../utils/notificationContext';
 
 export default function Books() {
 
@@ -25,8 +24,8 @@ export default function Books() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isSubmit, setIsSubmit] = useState(false);
-  const [message, setMessage] = useState();
   const navigate = useNavigate();
+  const {setNotification} = useNotification();
 
   useEffect(() => {
     const getAllBooks = async () => {
@@ -61,17 +60,18 @@ export default function Books() {
             page: currentPage
           }
         });
+        
         setBooks(res.data.books);
         setCurrentPage(res.data.currentPage);
         setTotalPages(res.data.totalPages);
       } catch (err) {
-        setMessage(handleAxiosError(err));
+        setNotification(handleAxiosError(err));
       }
     }
     searchBooks();
     setIsSubmit(false);
     
-  }, [searchQuery, searchGenre, sortBy, currentPage, isSubmit])
+  }, [searchQuery, searchGenre, sortBy, currentPage, isSubmit, setNotification])
 
   const searchQueryHandler = (e) => {
     const newSearchQuery = e.target.value;
@@ -89,7 +89,7 @@ export default function Books() {
   }
 
   // GET request has withCredeintials and params together in the same configuration object
-  const searchBooksHandeler = async (e) => {
+  const searchBooksHandeler = (e) => {
     e.preventDefault();
 
     // Triggers the useEffect
@@ -113,8 +113,6 @@ export default function Books() {
             <TitleText>Your bookshelf</TitleText>
         </div>
 
-        {message && <Message message={message} />}
-
         <form className="shadow-md border-t-4 border-teal-800  bg-white rounded-lg p-10 my-10 flex flex-col justify-center items-center">
           <div className=" flex flex-row flex-wrap gap-4 items-center justify-center mb-5">
             <div className="w-48">
@@ -132,8 +130,8 @@ export default function Books() {
 
 
           {books &&
-            <div>
-              <div className="flex flex-row flex-wrap justify-center">
+            <>
+              <div className="flex flex-row flex-wrap justify-center w-full">
                 {books.map((book, index) => {
                   return (
                     <BookCard key={index} book={book} />
@@ -151,7 +149,7 @@ export default function Books() {
                 <Button type="button" name="Next" optionalValue={currentPage + 1} optionalDisabledCondition={currentPage === totalPages} func={paginate} />
               </nav>
 
-            </div>
+            </>
           }
 
     </ContentWrapper>

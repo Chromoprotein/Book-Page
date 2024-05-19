@@ -3,5 +3,5 @@ export const genreArray = [
   ];
 
 export const sortArray = [
-    "title:asc", "title:desc", "author:asc", "author:desc"
+    "Title", "Author", "Most liked", "Most hated",
   ];

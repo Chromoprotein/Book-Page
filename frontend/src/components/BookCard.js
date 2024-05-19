@@ -8,41 +8,30 @@ import RatingStars from "./smallReusables/RatingStars";
 
 export default function BookCard({book}) {
 
-    const {_id, title, author, genre, coverUrl, series, stars, notes} = book;
+    const {_id, title, author, coverUrl, stars} = book;
 
     const coverSrc = coverUrl ? `https://covers.openlibrary.org/b/id/${coverUrl}-M.jpg` : bookPlaceholder;
 
     return (
 
-        <div className="w-96 min-h-96 bg-white shadow-md m-4 rounded-lg border-t-4 border-teal-800 grid grid-cols-2">
+        <div className="w-96 bg-white shadow p-5 m-4 rounded-lg flex flex-col items-center justify-start">
 
             <Link to={`details/${_id}`}>
-                <img src={coverSrc} alt="Book cover" className="rounded-l-lg h-full object-cover" />
+                <img src={coverSrc} alt="Book cover" className="h-48 rounded-lg object-cover" />
             </Link>
 
-            <div className="flex flex-col p-5">
-                <SpecialText>{title}</SpecialText>
-                <div>
+            <div className="flex flex-col p-2 justify-center items-center text-center">
+                <Link to={`details/${_id}`}>
+                    <SpecialText>{title}</SpecialText>
+                </Link>
+                <BodyText>
+                    <span className="material-symbols-outlined text-teal-700">ink_pen</span> {author}
+                </BodyText>
+                {stars && 
                     <BodyText>
-                        <span className="material-symbols-outlined text-teal-700">ink_pen</span> {author}
+                        <RatingStars stars={stars}/>
                     </BodyText>
-                    <BodyText>
-                        <span className="material-symbols-outlined text-teal-700">book_2</span> {genre}
-                    </BodyText>
-                    {series && 
-                        <BodyText>
-                            <span class="material-symbols-outlined text-teal-700">lists</span> {series} 
-                        </BodyText>
-                    }
-                    {stars && 
-                        <BodyText>
-                            <RatingStars stars={stars}/>
-                        </BodyText>
-                    }
-                </div>
-                <div className="mt-5">
-                    <DarkLink to={`../details/${_id}`}>Details</DarkLink>
-                </div>
+                }
             </div>
 
         </div>

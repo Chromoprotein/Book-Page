@@ -47,10 +47,21 @@ exports.findBooks = async (req, res) => {
     // Sorting
     let sort = {};
     // Default sort by date (newest first)
-    sort.createdAt = -1;
     if (sortBy) {
-        const parts = sortBy.split(':');
-        sort[parts[0]] = parts[1] === 'desc' ? -1 : 1;
+      if(sortBy === "Title") {
+        sort["title"] = 1;
+      } else if(sortBy === "Author") {
+        sort["author"] = 1;
+      } else if(sortBy === "Most hated") {
+        sort["stars"] = 1;
+      } else if(sortBy === "Most liked") {
+        sort["stars"] = -1;
+      }
+      // Old way:
+      //const parts = sortBy.split(':');
+      //sort[parts[0]] = parts[1] === 'desc' ? -1 : 1;
+    } else {
+      sort.createdAt = -1;
     }
 
     // Pagination

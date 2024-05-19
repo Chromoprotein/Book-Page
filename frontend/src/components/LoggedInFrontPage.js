@@ -3,19 +3,18 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { handleAxiosError } from "../utils/handleAxiosError";
-import { DarkLink } from "./smallReusables/EasyLink";
-import Message from "./smallReusables/Message";
 import { TitleText } from "./smallReusables/TextComponents";
 import LinkButton from "./smallReusables/LinkButton";
 import { BodyText } from "./smallReusables/TextComponents";
 import ContentWrapper from "./smallReusables/ContentWrapper";
+import { useNotification } from "../utils/notificationContext";
 
 export default function LoggedInFrontPage() {
 
     const [books, setBooks] = useState([]);
     const navigate = useNavigate();
-    const [message, setMessage] = useState();
     const [loading, setLoading] = useState(false);
+    const {setNotification} = useNotification();
 
     useEffect(() => {
     const frontPageBooks = async () => {
@@ -29,7 +28,7 @@ export default function LoggedInFrontPage() {
             setBooks(res.data.books);
             setLoading(false);
         } catch (err) {
-            setMessage(handleAxiosError(err));
+            setNotification(handleAxiosError(err));
             setLoading(false);
         }
     }
@@ -61,7 +60,6 @@ export default function LoggedInFrontPage() {
                 }</>
             }
                 
-            {message && <Message message={message} />}
         </ContentWrapper>
 
     );

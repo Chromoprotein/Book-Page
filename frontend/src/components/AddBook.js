@@ -4,15 +4,13 @@ import { handleAxiosError } from '../utils/handleAxiosError';
 import { navigateWithTimeout } from '../utils/navigateWithTimeout';
 import { useNavigate } from 'react-router-dom';
 import { DarkLink } from './smallReusables/EasyLink';
-import Message from './smallReusables/Message';
 import ContentWrapper from './smallReusables/ContentWrapper';
 import Button from './smallReusables/Button';
 import MiniButton from './smallReusables/MiniButton';
 import Input from "./smallReusables/Input";
 import DropDownMenu from "./smallReusables/DropDownMenu";
 import { genreArray } from "../utils/optionArrays";
-import { TitleText, BodyText } from "./smallReusables/TextComponents";
-import bookPlaceholder from '.././assets/book.webp';
+import { TitleText } from "./smallReusables/TextComponents";
 import IconContainer from './smallReusables/IconContainer';
 import useGenericKeyDown from '../utils/useGenericKeyDown';
 import { FaRegStar, FaStar } from "react-icons/fa";
@@ -21,51 +19,62 @@ import FormButton from './smallReusables/FormButton';
 import { IoIosSearch } from "react-icons/io";
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useNotification } from '../utils/notificationContext';
+import { Audio } from 'react-loader-spinner';
 
 export default function AddBook() {
 
-    let { id } = useParams();
+  let { id } = useParams();
 
-    const initialState = { title: "", author: "", genre: "", coverUrl: "", stars: "", notes: "", series: "" };
-    const [formState, setFormState] = useState(initialState);
-    const [bookCovers, setBookCovers] = useState([]);
-    const [currentBookCover, setCurrentBookCover] = useState(0);
-    const [message, setMessage] = useState();
-    const navigate = useNavigate();
-    const [errors, setErrors] = useState({});
+  const initialState = { title: "", author: "", genre: "", coverUrl: "", stars: "", notes: "", series: "" };
+  const [formState, setFormState] = useState(initialState);
 
-    // If navigated here from a book details page, fetch the form details for editing
-    useEffect(() => {
-      if (id) {
-        const getBook = async () => {
-            try {
-                const url = `${process.env.REACT_APP_BOOK_DETAIL_URI}/${id}`;
-                const res = await axios.get(url, { 
-                    withCredentials: true
-                });
-                setFormState({ 
-                  title: res.data.book.title, 
-                  author: res.data.book.author, 
-                  genre: res.data.book.genre, 
-                  stars: res.data.book.stars, 
-                  notes: res.data.book.notes, 
-                  series: res.data.book.series,
-                  coverUrl: res.data.book.coverUrl })
-            } catch (err) {
-                const errorMessage = handleAxiosError(err);
-                navigate('*', { state: { message: errorMessage } });
-            }
-        }
-        getBook();
+  // List of all found book cover ids
+  const [bookCovers, setBookCovers] = useState([]);
+  // The index of the current book cover in the bookCovers array
+  const [currentBookCover, setCurrentBookCover] = useState(0);
+  const [coverSearchLoading, setCoverSearchLoading] = useState(false);
+
+  const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
+  const {setNotification} = useNotification();
+
+  // If navigated here from a book details page, fetch the form details for editing
+  useEffect(() => {
+    if (id) {
+      const getBook = async () => {
+          try {
+              const url = `${process.env.REACT_APP_BOOK_DETAIL_URI}/${id}`;
+              const res = await axios.get(url, { 
+                  withCredentials: true
+              });
+              setFormState({ 
+                title: res.data.book.title, 
+                author: res.data.book.author, 
+                genre: res.data.book.genre, 
+                stars: res.data.book.stars, 
+                notes: res.data.book.notes, 
+                series: res.data.book.series,
+                coverUrl: res.data.book.coverUrl })
+          } catch (err) {
+              const errorMessage = handleAxiosError(err);
+              navigate('*', { state: { message: errorMessage } });
+          }
       }
-    }, [id, navigate])
-
-    const formStateHandler = (e) => {
-        setFormState((prevState) => ({
-            ...prevState, 
-            [e.target.name]: e.target.value
-        }));
+      getBook();
     }
+  }, [id, navigate])
+
+  const handleImageLoad = () => {
+    setCoverSearchLoading(false);
+  };
+
+  const formStateHandler = (e) => {
+      setFormState((prevState) => ({
+          ...prevState, 
+          [e.target.name]: e.target.value
+      }));
+  }
 
   const validateForm = () => {
     const newErrors = {};
@@ -76,48 +85,53 @@ export default function AddBook() {
     return newErrors;
   };
 
-  const closeMessage = () => {
-    setMessage("");
-  }
-
-    // Post request has withCredentials as a separate parameter
+  // Post request has withCredentials as a separate parameter
   const submitFormHandler = async (e) => {
     e.preventDefault();
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      setMessage("Some required fields are missing")
+      setNotification("Some required fields are missing")
     } else {
       setErrors({});
-      setMessage("");
+      setNotification("");
       try {
         if(id) { // Editing
             console.log("id is " + id)
             console.log(formState)
             const url = `${process.env.REACT_APP_UPDATE_BOOK_URI}/${id}`; // Include book ID in URL
             const response = await axios.put(url, formState, { withCredentials: true });
-            setMessage(response.data.message);
+            setNotification(response.data.message);
             navigateWithTimeout(navigate, `/details/${id}`);
         } else { // Posting a new book
           const response = await axios.post(process.env.REACT_APP_ADD_URI, formState, { withCredentials: true });
 
           if (response.status === 201) {
-              setMessage(response.data.message);
+              setNotification(response.data.message);
               navigateWithTimeout(navigate, `/details/${response.data.bookId}`);
           }
         }
       } catch (error) {
-        setMessage(handleAxiosError(error));
+        setNotification(handleAxiosError(error));
       }
     }
   };
 
   const searchCover = async (e) => {
+    //Reset previous results
+    setBookCovers("");
+    setCurrentBookCover("");
+    setFormState((prevState) => ({
+        ...prevState, 
+        coverUrl: ""
+    }));
+
     if(formState.title.length === 0 || formState.author.length === 0) {
-      setMessage("Fill in a title and an author to search covers");
+      setNotification("Fill in a title and an author to search covers");
       return;
     }
-    
+
+    setCoverSearchLoading(true);
     const url = `https://openlibrary.org/search.json?title=${formState.title}&author=${formState.author}`;
     const response = await axios.get(url);
 
@@ -129,7 +143,8 @@ export default function AddBook() {
       });
 
       if(bookUrls.length === 0) {
-        setMessage("No covers found for that book. A placeholder will be used instead.");
+        setCoverSearchLoading(false);
+        setNotification("No covers found for that book. A placeholder will be used instead.");
         setFormState((prevState) => ({
           ...prevState,
           coverUrl: "",
@@ -145,21 +160,34 @@ export default function AddBook() {
   }
 
   const toggleCover = (e) => {
-    // Sets the current book cover index for browsing results
+    setCoverSearchLoading(true);
+
+    //Reset current image
+    setFormState((prevState) => ({
+        ...prevState, 
+        coverUrl: ""
+    }));
+
     const newCoverIndex = parseInt(e.target.value, 10);
+
+    // Prevent toggling if the cover index is out of bounds
     if(newCoverIndex < 0 || newCoverIndex > (bookCovers.length - 1) ) {
       return;
     }
+
+    // Save the index of the book cover (place in the book covers array)
     setCurrentBookCover(newCoverIndex);
 
-    // Saves the current cover to the form data
-    setFormState((prevState) => ({
-      ...prevState,
-      coverUrl: bookCovers[newCoverIndex],
-    }))
+    setTimeout(() => {
+      // Saves the current cover id to the form data
+      setFormState((prevState) => ({
+        ...prevState,
+        coverUrl: bookCovers[newCoverIndex],
+      }))
+    }, 0);
   }
 
-  // Accessibility
+  // Accessibility for rating stars
   // (selectedItem) => { ... } is a callback function which is excuted by pressing enter
   const handleKeyDown = useGenericKeyDown((selectedItem) => {
     const index = parseInt(selectedItem.getAttribute('value'), 10); 
@@ -171,7 +199,6 @@ export default function AddBook() {
 
     return (
       <ContentWrapper>
-        {message && <Message message={message} onClose={closeMessage} />}
 
         <form className="flex flex-col justify-start shadow-md border-t-4 border-teal-800 items-start gap-5 bg-white rounded-lg w-full p-10 my-10 h-2/3 w-full">
 
@@ -183,13 +210,21 @@ export default function AddBook() {
 
           <FormButton name="cover" type="button" func={searchCover}><IconContainer><IoIosSearch /> Click to search covers</IconContainer></FormButton>
 
+          {coverSearchLoading && <div className="spinner">Loading...</div>}
+          
           {formState.coverUrl && 
             <div className="flex flex-col justify-center items-center">
-              <img src={`https://covers.openlibrary.org/b/id/${formState.coverUrl}-L.jpg`} alt="Book cover" className="w-48 m-5 rounded-lg" />
-              <div className="flex flex-row justify-center gap-4">
-                <MiniButton type="button" name="Previous" func={toggleCover} optionalValue={currentBookCover - 1} optionalDisabledCondition={currentBookCover === 0}>Prev</MiniButton>
-                <MiniButton type="button" name="Next" func={toggleCover} optionalValue={currentBookCover + 1} optionalDisabledCondition={currentBookCover === (bookCovers.length - 1)}>Next</MiniButton>
-              </div>
+              <img 
+                src={`https://covers.openlibrary.org/b/id/${formState.coverUrl}-L.jpg`} 
+                alt="Book cover" 
+                className="w-48 m-5 rounded-lg" 
+                onLoad={handleImageLoad} />
+              {(bookCovers.length > 1 && !coverSearchLoading) &&
+                <div className="flex flex-row justify-center gap-4">
+                  <MiniButton type="button" name="Previous" func={toggleCover} optionalValue={currentBookCover - 1} optionalDisabledCondition={currentBookCover === 0}>Prev</MiniButton>
+                  <MiniButton type="button" name="Next" func={toggleCover} optionalValue={currentBookCover + 1} optionalDisabledCondition={currentBookCover === (bookCovers.length - 1)}>Next</MiniButton>
+                </div>
+              }
             </div>
           }
           

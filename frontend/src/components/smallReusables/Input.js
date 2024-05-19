@@ -4,7 +4,7 @@ import { SpecialText } from "./TextComponents";
 
 export default function Input({ name, type = "text", placeholder, stateValue, func, alert }) {
 
-  const alertStyle = alert ? "border-b-4 border-red-500" : "border-0 bg-slate-100"
+  const alertStyle = alert ? "border-2 border-red-500" : "border-0 bg-slate-100"
 
     return (
       <div className="flex flex-col w-full">
