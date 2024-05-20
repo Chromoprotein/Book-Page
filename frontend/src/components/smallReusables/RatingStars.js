@@ -9,10 +9,10 @@ export default function RatingStars({stars}) {
     ));
 
     return (
-        <figure className="p-3 text-teal-700">
+        <span className="p-3 text-teal-700">
             <IconContainer>
                 {fullStarsElements}
             </IconContainer>
-        </figure>
+        </span>
     );
 };

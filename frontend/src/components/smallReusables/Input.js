@@ -8,7 +8,7 @@ export default function Input({ name, type = "text", placeholder, stateValue, fu
 
     return (
       <div className="flex flex-col w-full">
-          <label className="text-sm text-teal-700 font-bold font-roboto p-1" for={name}>{name.toUpperCase()}</label>
+          <label className="text-sm text-teal-700 font-bold font-roboto p-1" htmlFor={name}>{name.toUpperCase()}</label>
           <input
             className={`p-3 my-2 rounded-lg text-gray-900 h-12 placeholder:text-gray-900 placeholder:font-roboto focus:shadow-md shadow-inner ${alertStyle}`}
             name={name}

@@ -8,6 +8,7 @@ import LinkButton from "./smallReusables/LinkButton";
 import { BodyText } from "./smallReusables/TextComponents";
 import ContentWrapper from "./smallReusables/ContentWrapper";
 import { useNotification } from "../utils/notificationContext";
+import BookGrid from "./smallReusables/BookGrid";
 
 export default function LoggedInFrontPage() {
 
@@ -34,7 +35,7 @@ export default function LoggedInFrontPage() {
     }
     frontPageBooks();
 
-    }, [navigate])
+    }, [navigate, setNotification])
 
     return (
         <ContentWrapper>
@@ -44,13 +45,13 @@ export default function LoggedInFrontPage() {
             {loading ? "Loading" : 
                 <>{books.length > 0 ?
                     <div className="w-full flex flex-col gap-5 justify-center">
-                        <div className="w-full flex flex-wrap justify-center">
+                        <BookGrid>
                             {books.map((book, index) => {
                             return (
                                 <BookCard key={index} book={book} details={true} />
                             ) 
                             })}
-                        </div> 
+                        </BookGrid> 
                         <div className="text-center mx-auto">
                             <LinkButton to="getBooks">View More</LinkButton>
                         </div>

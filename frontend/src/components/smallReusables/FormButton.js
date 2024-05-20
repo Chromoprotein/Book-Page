@@ -8,7 +8,7 @@ export default function FormButton({type, name, optionalValue, optionalDisabledC
 
     return (
         <div className="flex flex-col w-full">
-            <label className="text-sm text-teal-700 font-bold font-roboto p-1" for={name}>{name.toUpperCase()}</label>
+            <label className="text-sm text-teal-700 font-bold font-roboto p-1" htmlFor={name}>{name.toUpperCase()}</label>
             <button 
                 className={`p-3 my-2 rounded-lg text-left h-12 flex items-center font-roboto focus:shadow-md shadow-inner ${disabledStyle} ${alertStyle}`}
                 type={type} 

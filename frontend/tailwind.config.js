@@ -11,6 +11,9 @@ module.exports = {
         roboto: ['Roboto', 'sans-serif'],
         poppins: ['Poppins', 'sans-serif'],
       },
+      gridAutoRows: {
+        'fr': 'minmax(0, 1fr)',
+      },
     }
   },
   plugins: [],

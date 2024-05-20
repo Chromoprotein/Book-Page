@@ -14,6 +14,7 @@ import ContentWrapper from './smallReusables/ContentWrapper';
 import { IoIosSearch } from "react-icons/io";
 import IconContainer from './smallReusables/IconContainer';
 import { useNotification } from '../utils/notificationContext';
+import BookGrid from './smallReusables/BookGrid';
 
 export default function Books() {
 
@@ -131,13 +132,13 @@ export default function Books() {
 
           {books &&
             <>
-              <div className="flex flex-row flex-wrap justify-center w-full">
+              <BookGrid>
                 {books.map((book, index) => {
                   return (
                     <BookCard key={index} book={book} />
                   ) 
                 })}
-              </div>
+              </BookGrid>
 
               <nav className="p-5 flex flex-row justify-center gap-5">
                 <Button type="button" name="Previous" optionalValue={currentPage - 1} optionalDisabledCondition={currentPage === 1} func={paginate} />

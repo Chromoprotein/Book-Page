@@ -12,7 +12,7 @@ export function DarkLink({to, children}) {
 export function LightLink({to, children}) {
     
     return (
-        <Link className="text-center p-1 font-bold tracking-wide text-teal-100 hover:text-white m-5 font-roboto" to={to}>
+        <Link className="text-center p-1 font-bold tracking-wide text-teal-100 hover:text-white m-5 font-roboto flex justify-center items-center gap-1" to={to}>
             {children}
         </Link>
     );

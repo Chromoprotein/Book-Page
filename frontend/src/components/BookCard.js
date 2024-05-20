@@ -14,7 +14,7 @@ export default function BookCard({book}) {
 
     return (
 
-        <div className="w-96 bg-white shadow p-5 m-4 rounded-lg flex flex-col items-center justify-start">
+        <div className="w-full xl:w-96 bg-white shadow p-5 m-4 rounded-lg flex flex-col items-center justify-start">
 
             <Link to={`details/${_id}`}>
                 <img src={coverSrc} alt="Book cover" className="h-48 rounded-lg object-cover" />

@@ -31,12 +31,17 @@ export default function NavbarFooter({ children }) {
             window.addEventListener('scroll', handleScroll);
             handleScroll(); // Initialize position on load
 
+            // Timeout to clear the notification
+            setTimeout(() => {
+                setNotification("");
+            }, 5000);
+
             // Cleanup the event listener on component unmount
             return () => {
                 window.removeEventListener('scroll', handleScroll);
             };
         }
-    }, [notification]);
+    }, [notification, setNotification]);
 
     const closeNotification = () => {
         setNotification("");
@@ -44,20 +49,47 @@ export default function NavbarFooter({ children }) {
 
     return (
         <>
-            <nav className="navbar bg-gradient-to-r from-teal-800 to-teal-600 h-20 px-10 gap-3 flex justify-between" ref={navbarRef}>
+            <nav className="navbar bg-gradient-to-r from-teal-800 to-teal-600 h-20 lg:px-10 lg:gap-3 flex justify-between w-full" ref={navbarRef}>
                     <div className="flex justify-start items-center">
                         <LightLink to="/">
-                            <img src={bookicon} alt="Home link icon" className="h-16 rounded-full" />
+                            <img src={bookicon} alt="Home link icon" className="h-16 w-16 min-w-16 rounded-full" />
                         </LightLink>
-                        <TitleLink to="/">Booksmosis</TitleLink>
+                        <div className="hidden md:inline">
+                            <TitleLink to="/">Booksmosis</TitleLink>
+                        </div>
                     </div>
                     <div className="flex justify-end items-center">
-                        {!isAuthenticated && <LightLink to="register">Register</LightLink>}
-                        {!isAuthenticated && <LightLink to="login">Log in</LightLink>}
+                        {!isAuthenticated && 
+                            <LightLink to="register">
+                                <span className="material-symbols-outlined">person_add</span> 
+                                <span className="hidden sm:inline">Register</span>
+                            </LightLink>
+                        }
+                        {!isAuthenticated && 
+                            <LightLink to="login">
+                                <span className="material-symbols-outlined">login</span>
+                                <span className="hidden sm:inline">Log in</span>
+                            </LightLink>
+                        }
 
-                        {isAuthenticated && <LightLink to="getBooks">My books</LightLink>}
-                        {isAuthenticated && <LightLink to="addBook">Add books</LightLink>}
-                        {isAuthenticated && <LightLink to="logout">Log out</LightLink>}
+                        {isAuthenticated && 
+                            <LightLink to="getBooks">
+                                <span className="material-symbols-outlined">book_2</span>
+                                <span className="hidden sm:inline">My books</span>
+                            </LightLink>
+                        }
+                        {isAuthenticated && 
+                            <LightLink to="addBook">
+                                <span className="material-symbols-outlined">library_add</span>
+                                <span className="hidden sm:inline">Add books</span>
+                            </LightLink>
+                        }
+                        {isAuthenticated && 
+                            <LightLink to="logout">
+                                <span className="material-symbols-outlined">logout</span>
+                                <span className="hidden sm:inline">Log out</span>
+                            </LightLink>
+                        }
                     </div>
             </nav>
 

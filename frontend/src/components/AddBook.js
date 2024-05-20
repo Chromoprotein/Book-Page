@@ -231,7 +231,7 @@ export default function AddBook() {
           <Input name="series" placeholder="Series" stateValue={formState.series} func={formStateHandler} />
 
           <div className="w-full">
-            <label className="text-sm font-bold text-teal-700 font-roboto p-1" for="stars">RATING</label>
+            <label className="text-sm font-bold text-teal-700 font-roboto p-1" htmlFor="stars">RATING</label>
             <IconContainer>
                 {[...Array(5)].map((_, index) => {
                     const simulatedEvent = {
