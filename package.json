@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run client\" \"npm run tailwind\"",
+    "start": "node server.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run tailwind\"",
     "server": "node server.js",
     "client": "cd frontend && npm start",
     "tailwind": "cd frontend && npx tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css --watch",
