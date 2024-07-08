@@ -1,6 +1,10 @@
 Book tracking website
 
-This is a React / Node.js (Express) / MongoDB / Tailwind website for keeping track of what books you've read and what thoughts you have about them. You can upload, edit, or remove books you've read. Book cover images come from the Open Library API, so you don't have to upload your own. Sorting, searching (with debouncing), filtering, and pagination are available to make browsing the books easier.
+This is a React / Node.js (Express) / MongoDB website for keeping track of what books you've read and what thoughts you have about them. You can upload, edit, or remove books you've read. Sorting, searching (with debouncing), filtering, and pagination are available to make browsing the books easier. Book cover images come from the Open Library API, so you don't have to upload your own. Also, I used Axios to make http requests and Tailwind CSS to style the website.
+
+Run it by npm run dev to concurrently start the server, client, and Tailwind.
+
+Folders and some files:
 
 Auth: API routes and functions related to user authentication.
 
