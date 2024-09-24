@@ -28,15 +28,17 @@ Schemas: MongoDB schemas.
 
 frontend: the frontend folder.
 
-frontend/src/components/AddBook.js: uploads a new book or edits an existing one depending on whether it receives a book id. You can rate books 1-5 stars and write notes/a review.
+frontend/src/components: React components.
 
-frontend/src/components/Books.js: displays the user's books.
+- frontend/src/components/AddBook.js: uploads a new book or edits an existing one depending on whether it receives a book id. You can rate books 1-5 stars and write notes/a review.
 
-frontend/src/components/Details.js: displays details about a book.
+- frontend/src/components/Books.js: displays the user's books.
 
-frontend/src/components/App.js: contains routing with React Router and route protection. Additionally, there is client-side user authentication (authContext.js) for improving the user experience.
+- frontend/src/components/Details.js: displays details about a book.
 
-frontend/src/components/smallReusables: UI elements like inputs and buttons.
+- frontend/src/components/App.js: contains routing with React Router and route protection. Additionally, there is client-side user authentication (authContext.js) for improving the user experience.
+
+frontend/src/components/smallReusables: dumb UI elements like inputs and buttons.
 
 frontend/src/utils: contexts, hooks, helper functions, etc.
 
