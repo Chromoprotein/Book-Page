@@ -1,10 +1,10 @@
-Book tracking website
+#Book tracking website
 
 This is a website for keeping track of what books you've read and what thoughts you have about them.
 
 Tech stack: React / Node.js (Express) / MongoDB / Tailwind CSS
 
-Features:
+##Features:
 
 - You can upload, edit, or remove books you've read.
 
@@ -16,7 +16,7 @@ Features:
 
 - - - - - - -
 
-Folders and some files:
+##Folders and some files:
 
 Auth: API routes and functions related to user authentication.
 
@@ -44,7 +44,7 @@ frontend/src/utils: contexts, hooks, helper functions, etc.
 
 - - - - - - -
 
-My to-do list:
+##My to-do list:
 
 Important:
 
