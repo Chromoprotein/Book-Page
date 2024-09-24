@@ -14,8 +14,6 @@ Tech stack: React / Node.js (Express) / MongoDB / Tailwind CSS
 
 - Book cover images come from the Open Library API, so you don't have to upload your own.
 
-- - - - - - -
-
 ## Folders and some files:
 
 Auth: API routes and functions related to user authentication.
@@ -41,8 +39,6 @@ frontend/src/components: React components.
 frontend/src/components/smallReusables: dumb UI elements like inputs and buttons.
 
 frontend/src/utils: contexts, hooks, helper functions, etc.
-
-- - - - - - -
 
 ## My to-do list:
 
