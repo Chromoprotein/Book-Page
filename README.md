@@ -44,9 +44,14 @@ frontend/src/utils: contexts, hooks, helper functions, etc.
 
 Important:
 
+- A statistics page:
+    - Books per month / year / all time
+    - Break down by genre
+    - Break down by author
+    - Most liked genres and authors
 - Add a nicer error page.
 - Currently, when the user logs out, the page goes blank. Redirect instead to the landing page.
-- Remove or shorten timeouts that aren't useful anymore.
+- Remove timeouts that aren't useful anymore.
 - Force stronger passwords.
 - Modify alphabetical sorting so it uses the author's last name instead of first name, and ignores a / an / the in title sorting.
 
